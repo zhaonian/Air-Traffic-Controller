@@ -6,6 +6,5 @@
 
 
 class FlightPlanBootstrapOrderEnum:
-    def __init__(self, BY_EXPECT, BY_REWARD):
-        self.BY_EXPECT = BY_EXPECT
-        self.BY_REWARD = BY_REWARD
+    BY_EXPECT = 0
+    BY_REWARD = 1
