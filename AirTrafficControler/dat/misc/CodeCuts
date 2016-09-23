@@ -1,0 +1,143 @@
+    public BigDecimal getExpectedValueDeltaFuncPrecise(){
+        Double reward        = this.plan.get(0).getReward();
+        Double probSucc      = this.plan.get(0).getProbability();
+        Double costFlipFail  = this.plan.get(0).getTimeFailure();     // Mean Time used when flight 0 fails.
+        Double costFlipSucc  = this.plan.get(0).getTimeSuccess();     // Mean Time used when flight 0 succeeds.
+        Double tMax          = this.plan.get(0).getTimeMax();         // T-max is same for all flights in a given placement.
+        Double timeExpireCoef= ( (costFlipSucc) < tMax) ?  ParameterCore.NO_PENELTY_COEFF : ParameterCore.TIME_OUT_PENELTY_COEFF/(ParameterCore.TIME_OUT_PENELTY_COEFF + costFlipSucc - tMax)  ;
+        Double costFailChain = costFlipFail;
+        Double probFailChain = ( 1.0 - probSucc );
+        //Double fullSum         = (reward*probSucc*timeExpireCoef);
+        BigDecimal fullSum   = Utils.productHighPrecision(reward,probSucc,timeExpireCoef);
+        for ( int i = 1; i < this.plan.size(); i++ ){
+            reward           = this.plan.get(i).getReward();
+            probSucc         = this.plan.get(i).getProbability();
+            costFlipFail     = this.plan.get(i).getTimeFailure();
+            costFlipSucc     = this.plan.get(i).getTimeSuccess();
+            tMax             = this.plan.get(i).getTimeMax();
+            timeExpireCoef   = ( (costFlipSucc + costFailChain) < tMax) ?  ParameterCore.NO_PENELTY_COEFF : ParameterCore.TIME_OUT_PENELTY_COEFF/((ParameterCore.TIME_OUT_PENELTY_COEFF + costFlipSucc + costFailChain) - tMax);
+            fullSum          = fullSum.add(Utils.productHighPrecision(reward,probSucc,probFailChain,timeExpireCoef));
+            //fullSum       += (reward*probSucc*probFailChain*timeExpireCoef);
+            costFailChain   += costFlipFail;
+            probFailChain   *= ( 1.0 - probSucc );
+        }
+        return fullSum;
+    }
+    public BigDecimal getExpectedValueCDFPrecise(){
+        Double reward        = this.plan.get(0).getReward();         
+        Double probSucc      = this.plan.get(0).getProbability();
+        Double costFlipFail  = this.plan.get(0).getTimeFailure();     // Mean Time used when flight 0 fails.
+        Double costFlipSucc  = this.plan.get(0).getTimeSuccess();     // Mean Time used when flight 0 succeeds.
+        Double tMax          = this.plan.get(0).getTimeMax();         // T-max is same for all flights in a given placement. It is a fixed value.
+        Double normalCDF     = Gaussian.Phi(tMax, costFlipSucc, ParameterCore.STD_DEV); 
+        Double costFailChain = costFlipFail;
+        Double probFailChain = ( 1.0 - probSucc );
+        //Double fullSum         = (reward*probSucc*timeExpireCoef);
+        BigDecimal fullSum   = Utils.productHighPrecision(reward,probSucc,normalCDF);
+        for ( int i = 1; i < this.plan.size(); i++ ){
+            reward           = this.plan.get(i).getReward();
+            probSucc         = this.plan.get(i).getProbability();
+            costFlipFail     = this.plan.get(i).getTimeFailure();
+            costFlipSucc     = this.plan.get(i).getTimeSuccess();
+            tMax             = this.plan.get(i).getTimeMax();
+            normalCDF        = Gaussian.Phi(tMax, (costFlipSucc + costFailChain), Math.sqrt(i+1)*ParameterCore.STD_DEV);
+            //fullSum       += (reward*probSucc*probFailChain*normalCDF);
+            fullSum          = fullSum.add(Utils.productHighPrecision(reward,probSucc,probFailChain,normalCDF));
+            costFailChain   += costFlipFail;
+            probFailChain   *= ( 1.0 - probSucc );
+        }
+        return fullSum;
+    }
+        public BigDecimal getExpectedValuePrecise(){
+        if (ParameterCore.UTILITY == UtilityFunctionEnum.CDF){
+            return getExpectedValueCDFPrecise();
+        }
+        if (ParameterCore.UTILITY == UtilityFunctionEnum.DELTA){
+            return getExpectedValueDeltaFuncPrecise();
+        }
+        throw new AssertionError();
+    }
+    private FlightPlan slsPreciceCalc() {
+        FlightPlan incumbent        = this.baseFlightPlan.cloneFlightPlan();
+        BigDecimal incumbentScore   = incumbent.getExpectedValuePrecise();
+        BigDecimal improvement      = new BigDecimal (0.0);
+        List<Flight> candid         = cloneCandidates();
+        
+        if ( (candid.size() + incumbent.size()) < ParameterCore.BRUTE_BOUND){
+            return runBruteForcePrecise();
+        }
+        while ( improvement.compareTo(new BigDecimal( ParameterCore.IMPROVEMENT_THRESHOLD) ) > 0 ){
+            improvement = new BigDecimal(0.0);
+            for ( int i = 0; i < ParameterCore.LOCAL_SEARCH_WINDOW; i++ ) {
+                //This block is used when an enforced small size waterfall size is used.
+                if ( candid.size() > ParameterCore.MIN_FLIGHTS_TO_TRY_IMPROVE ){
+                    Integer swapInIndex    = this.random.nextInt(candid.size()-1);
+                    Integer swapOutIndex   = this.random.nextInt(incumbent.size()-1);
+                    FlightPlan fpCandidate = incumbent.cloneFlightPlan();
+                    
+                    Flight swappedIn  = candid.get(swapInIndex);
+                    Flight swappedOut = fpCandidate.get(swapOutIndex);
+                    
+                    fpCandidate.set(swapOutIndex, swappedIn);
+                    //fpCandidate.makeAdmissible();
+    
+                    BigDecimal candScore = fpCandidate.getExpectedValuePrecise();
+                    if( incumbentScore.compareTo(candScore) < 0 ){
+                        improvement    = improvement.max(candScore.subtract(incumbentScore)); 
+                        incumbent      = fpCandidate;
+                        incumbentScore = candScore;
+                        candid.remove(swappedIn);
+                        candid.add(swappedOut);
+                    }
+                }
+                //This block is used when a full ordering (all elements in waterfall are considered).
+                else {
+                    Integer swapInIndex    = this.random.nextInt(incumbent.size()-1);
+                    Integer swapOutIndex   = this.random.nextInt(incumbent.size()-1);
+                    while (swapOutIndex == swapInIndex){
+                        swapOutIndex   = this.random.nextInt(incumbent.size()-1);
+                    }
+                    FlightPlan fpCandidate = incumbent.cloneFlightPlan();
+                    
+                    Flight swappedIn  = fpCandidate.get(swapInIndex);
+                    Flight swappedOut = fpCandidate.get(swapOutIndex);
+                    
+                    fpCandidate.set(swapOutIndex, swappedIn);
+                    fpCandidate.set(swapInIndex , swappedOut);
+                    //fpCandidate.makeAdmissible();
+    
+                    BigDecimal candScore = fpCandidate.getExpectedValuePrecise();
+                    if( incumbentScore.compareTo(candScore) < 0 ){
+                        improvement    = improvement.max(candScore.subtract(incumbentScore)); 
+                        incumbent      = fpCandidate;
+                        incumbentScore = candScore;
+                    }
+                }
+            }
+        }
+        return incumbent;
+    }
+    public FlightPlan runBruteForcePrecise(){
+        List<Flight> allFlights = new FlightPlan(this.baseFlightPlan).getAsList();
+        allFlights.addAll(cloneCandidates());
+        if (allFlights.size() > ParameterCore.BRUTE_BOUND){
+            throw new AssertionError("Brute Force Bound Exceeded");
+        }
+        FlightCombinator fc      = new FlightCombinator(allFlights, this.waterFallSize);
+        FlightPlan bestPlan      = null;
+        BigDecimal bestPlanScore = new BigDecimal(Double.MIN_VALUE);
+
+        for(FlightPlan fp : fc){
+            BigDecimal expVal = fp.getExpectedValuePrecise();
+            if (bestPlanScore.compareTo(expVal) < 0){
+                bestPlan      = fp;
+                bestPlanScore = expVal;
+            }
+        }
+
+        assert(bestPlan != null);
+        if (ParameterCore.DEBUG > 0){
+            System.out.println(bestPlan.get(0).getPlacementToken() + " " + bestPlan.getExpectedValue());
+        }
+        return bestPlan;
+    }

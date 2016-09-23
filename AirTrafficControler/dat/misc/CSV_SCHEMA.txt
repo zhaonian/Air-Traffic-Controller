@@ -1,0 +1,7 @@
+#CSV Data Map: 
+#Placement_id, Flight_id, Reward, Click_Through_Rate, Time_Limit_Per_Placement,
+#Average_Time_Delay_If_Rejected_In_Sec, Average_Time_Delay_If_Accepted_In_Sec,
+#Std_Dev_Time_Delay_If_Rejected_In_Sec, Std_Dev_Time_Delay_If_Accepted_In_Sec 
+
+Run utility with no arguments for usage information.
+
