@@ -130,6 +130,8 @@ class FlightPlan:
             agg += f                                    # agg += f;
         return agg                                      # return agg;
 
+    def size(self):
+        return len(self.plan)
 
 
 # 	public Iterator<Flight> iterator() {
@@ -154,7 +156,7 @@ class FlightPlan:
 
 
 # Don't think need it so far.
-
+# No
 
 
 

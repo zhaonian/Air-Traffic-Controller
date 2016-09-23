@@ -69,13 +69,13 @@ class FlightPlanCoordinator:                                                    
         improvement = incumbentScore
         candid = self.cloneCandidates()
 
-        if (len(candid) + len(incumbent)) < ParameterCore.ParameterCore().BRUTE_BOUND:                      # if ((candid.size() + incumbent.size()) < ParameterCore.BRUTE_BOUND) {
+        if (len(candid) + incumbent.size()) < ParameterCore.ParameterCore().BRUTE_BOUND:      # if ((candid.size() + incumbent.size()) < ParameterCore.BRUTE_BOUND) {
             return self.runBruteForce()                                                     # return runBruteForce();
 
-        while improvement > ParameterCore.ParameterCore().IMPROVEMENT_THRESHOLD:                            # while (improvement.compareTo(ParameterCore.IMPROVEMENT_THRESHOLD) > 0) {
+        while improvement > ParameterCore.ParameterCore().IMPROVEMENT_THRESHOLD:            # while (improvement.compareTo(ParameterCore.IMPROVEMENT_THRESHOLD) > 0) {
             improvement = 0.0                                                               # improvement = 0.0;
-            for i in range(0, ParameterCore.ParameterCore().LOCAL_SEARCH_WINDOW):                           # for (int i = 0; i < ParameterCore.LOCAL_SEARCH_WINDOW; i++) {
-                if len(candid) > ParameterCore.ParameterCore().MIN_FLIGHTS_TO_TRY_IMPROVE:                  # if (candid.size() > ParameterCore.MIN_FLIGHTS_TO_TRY_IMPROVE) {
+            for i in range(0, ParameterCore.ParameterCore().LOCAL_SEARCH_WINDOW):           # for (int i = 0; i < ParameterCore.LOCAL_SEARCH_WINDOW; i++) {
+                if len(candid) > ParameterCore.ParameterCore().MIN_FLIGHTS_TO_TRY_IMPROVE:  # if (candid.size() > ParameterCore.MIN_FLIGHTS_TO_TRY_IMPROVE) {
                     swapInIndex = self.random.randrange(len(candid) - 1)                    # Integer swapInIndex = this.random.nextInt(candid.size() - 1);
                     swapOutIndex = self.random.randrange(int(incumbent) - 1)                # Integer swapOutIndex = this.random.nextInt(incumbent.size() - 1);
                     fpCandidate = incumbent.cloneFlightPlan()                               # FlightPlan fpCandidate = incumbent.cloneFlightPlan();
