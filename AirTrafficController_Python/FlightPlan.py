@@ -121,7 +121,7 @@ class FlightPlan:
         cloneList = list()                                                  # List<Flight> cloneList = Collections.synchronizedList(new ArrayList<Flight>());
         for f in self.plan:                                                 # for (Flight f : this.plan){
             cloneList.append(Flight.Flight(f))                              ## cloneList.add( new Flight(f) );
-        return self.FlightPlan(cloneList)                                   # return new FlightPlan(cloneList);
+        return FlightPlan(cloneList)                                        # return new FlightPlan(cloneList);
 
 
     def toString(self):                                 # public String toString(){
