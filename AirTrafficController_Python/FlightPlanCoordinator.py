@@ -140,13 +140,13 @@ class FlightPlanCoordinator:                                                    
         # throw new AssertionError("Brute Force Bound Exceeded");
         # }
         if len(args) == 0:
-            allFlights = list(FlightPlan.FlightPlan(self.baseFlightPlan))                                               # List<Flight> allFlights = new FlightPlan(this.baseFlightPlan).getAsList();
+            allFlights = FlightPlan(self.baseFlightPlan).getAsList()                                                    # List<Flight> allFlights = new FlightPlan(this.baseFlightPlan).getAsList();
             allFlights.extend(self.cloneCandidates())                                                                   # allFlights.addAll(cloneCandidates());
             return self.runBruteForce(allFlights)                                                                       # return runBruteForce(allFlights);
         else:
             minFlights = min(self.waterFallSize, len(args))                                                             # Integer minFlights = Math.min(this.waterFallSize, allFlights.size());
-            allFlights = args[0, minFlights]
-            fc = FlightCombinator.FlightCombinator(allFlights, minFlights)                                                               # FlightCombinator fc = new FlightCombinator(allFlights, minFlights);
+            allFlights = args[0:minFlights]
+            fc = FlightCombinator(allFlights, minFlights)                                              # FlightCombinator fc = new FlightCombinator(allFlights, minFlights);
 
             bestPlan = FlightPlan.FlightPlan(allFlights[0, minFlights])                                                 # FlightPlan bestPlan = new FlightPlan(allFlights.subList(0, minFlights));
             bestPlanScore = bestPlan.getExpectedValue()                                                                 # Double bestPlanScore = bestPlan.getExpectedValue();

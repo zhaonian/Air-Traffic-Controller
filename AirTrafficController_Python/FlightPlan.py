@@ -132,6 +132,9 @@ class FlightPlan:
 
     def size(self):
         return len(self.plan)
+    
+    def getAsList(self):
+        return self.plan
 
 
 # 	public Iterator<Flight> iterator() {
