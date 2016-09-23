@@ -16,13 +16,15 @@ class FlightPlanCoordinator:                                                    
     random = random.random()                                                    # private Random       random;
     coordinates = []                                                            # private List<Flight> candidates;
     temperature = 0.0                                                           # private Double       temperature;
+    candidates = list()
 
 
     def FlightPlanCoordinator(self, fp, candidates):                            # public FlightPlanCoordinator(FlightPlan fp, List<Flight> candidates) {
         self.random = random.Random()                                           # this.random = new Random();
         self.baseFlightPlan = fp                                                # this.baseFlightPlan = fp;
         self.waterFallSize = len(fp)                                            # this.waterFallSize = fp.size();
-        self.candidates = list(candidates) if candidates != None else list()    # this.candidates = (candidates != null) ? Collections.synchronizedList(candidates) : new ArrayList<Flight>();
+        if candidates != None:                                                  # this.candidates = (candidates != null) ? Collections.synchronizedList(candidates) : new ArrayList<Flight>();
+            self.candidates = candidates
         self.temperature = ParameterCore.ParameterCore().PROB_RANDOR_BASE       # this.temperature = ParameterCore.PROB_RANDOR_BASE;
 
 
