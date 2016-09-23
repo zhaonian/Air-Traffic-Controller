@@ -21,10 +21,9 @@
             <manifest>
                 <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
                 <attribute name="Rsrc-Main-Class" value="FlightCoordination.Main"/>
-                <attribute name="Class-Path" value="."/>
                 <attribute name="Rsrc-Class-Path" value="./ combinatoricslib-2.0.jar opencsv-2.4.jar jdistlib-0.3.5-bin.jar"/>
             </manifest>
-            <zipfileset src="jar-in-jar-loader.zip"/>
+            <zipfileset src="jar-in-jar-loader.zip"/> 
             <fileset dir="${bin}"/>
             <zipfileset dir="${basedir}/lib" includes="combinatoricslib-2.0.jar"/>
             <zipfileset dir="${basedir}/lib" includes="opencsv-2.4.jar"/>
