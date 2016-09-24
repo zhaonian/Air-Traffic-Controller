@@ -9,12 +9,12 @@ class FlightPlan:
     probs = ""
     plan = []
 
-    def __init__(self, *args):
-        return
+    def __init__(self, plan):
+        self.plan = plan
 
 
-    def FlightPlan(self, plan):                                 # public FlightPlan(List<Flight> plan){
-        self.plan = plan                                        # this.plan = Collections.synchronizedList(plan);
+    #def FlightPlan(self, plan):                                 # public FlightPlan(List<Flight> plan){
+                                                # this.plan = Collections.synchronizedList(plan);
                                                                 # public FlightPlan(FlightPlan fp){
                                                                 # this.plan = fp.getAsList();
 
@@ -54,9 +54,9 @@ class FlightPlan:
         costFlipFail_std = self.plan[0].getTimeStdDevFailure()   # Double costFlipFail_std   = this.plan.get(0).getTimeStdDevFailure();
         costFlipSucc_std = self.plan[0].getTimeStdDevSuccess()   # Double costFlipSucc_std   = this.plan.get(0).getTimeStdDevSuccess();
 
-        logNormVar = math.log(math.pow(costFlipSucc_std, 2)/(math.pow(costFlipSucc, 2)) + 1.0)                          # Double logNormVar		  = Math.log((Math.pow(costFlipSucc_std,2)/Math.pow(costFlipSucc,2)) + 1.0);
-        logNormMean = math.log(costFlipSucc) - (logNormVar / 2.0)                                                       # Double logNormMean		  = Math.log(costFlipSucc)-(logNormVar/2.0);
-        logNormalCDF = scipy.stats.norm.cdf(tMax, logNormMean, math.sqrt(logNormVar), True, False)                      # Double logNormalCDF       = jdistlib.LogNormal.cumulative(tMax, logNormMean, Math.sqrt(logNormVar), true, false);
+        logNormVar   = math.log(math.pow(costFlipSucc_std, 2)/(math.pow(costFlipSucc, 2)) + 1.0)                          # Double logNormVar		  = Math.log((Math.pow(costFlipSucc_std,2)/Math.pow(costFlipSucc,2)) + 1.0);
+        logNormMean  = math.log(costFlipSucc) - (logNormVar / 2.0)                                                       # Double logNormMean		  = Math.log(costFlipSucc)-(logNormVar/2.0);
+        logNormalCDF = scipy.stats.lognorm.cdf(tMax, logNormMean, math.sqrt(logNormVar), True, False)                      # Double logNormalCDF       = jdistlib.LogNormal.cumulative(tMax, logNormMean, Math.sqrt(logNormVar), true, false);
 
         fullSum             = (reward*probSucc*logNormalCDF)     # Double fullSum		      = (reward*probSucc*logNormalCDF);
         probFailChain       = 1.0 - probSucc                     # Double probFailChain      = ( 1.0 - probSucc );
@@ -76,7 +76,7 @@ class FlightPlan:
 
             logNormVar   = math.log(((normalCDFFailChain + math.pow(costFlipSucc_std, 2))/math.pow(costFailChain + costFlipSucc, 2)) + 1.0)         # logNormVar		      = Math.log(((normalCDFFailChain+Math.pow(costFlipSucc_std,2))/Math.pow(costFailChain+costFlipSucc,2)) + 1.0);
             logNormMean  = math.log(costFailChain + costFlipSucc) - (logNormVar/2.0)                                                                # logNormMean		      = Math.log(costFailChain+costFlipSucc)-(logNormVar/2.0);
-            logNormalCDF = scipy.stats.norm.cdf(tMax, logNormMean, math.sqrt(logNormVar), True, False)                                              # logNormalCDF            = jdistlib.LogNormal.cumulative(tMax, logNormMean, Math.sqrt(logNormVar), true, false);
+            logNormalCDF = scipy.stats.norm.cdf(tMax, logNormMean, math.sqrt(logNormVar))                                              # logNormalCDF            = jdistlib.LogNormal.cumulative(tMax, logNormMean, Math.sqrt(logNormVar), true, false);
 
             self.probs          += self.plan[i].getFid() + " S " + logNormalCDF + ","                                   # this.probs           += this.plan.get(i).getFid() + " S " + logNormalCDF + "," ;
 
@@ -91,7 +91,7 @@ class FlightPlan:
 
 
     def getExpectedValue(self):
-        try:
+        #try:
             if len(self.plan) == 0:                                                         # if (this.plan.isEmpty()){
                 return 0.0                                                                  # return 0.0;
 
@@ -100,8 +100,8 @@ class FlightPlan:
 
             if ParameterCore.ParameterCore().UTILITY == UtilityFunctionEnum.UtilityFunctionEnum().DELTA:          # if (ParameterCore.UTILITY == UtilityFunctionEnum.DELTA){
                 return self.getExpectedValueDeltaFunc()                                     # return getExpectedValueDeltaFunc();
-        except:
-            raise AssertionError()                                                          # throw new AssertionError();
+        #except:
+         #   raise AssertionError()                                                          # throw new AssertionError();
 
 
     def isAdmissible(self):                                         # public Boolean isAdmissible(){

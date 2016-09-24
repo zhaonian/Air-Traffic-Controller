@@ -81,7 +81,7 @@ class Utils:                              # public class Utils {
         if ParameterCore.ParameterCore().RUN_PARALLEL:
             for p in allPlacements:
                 alot.append(OptimizingThread(waterfallSizeLimit, control, semaphore, p))
-                alot[]
+
 
     def doProcessRow(self, rowIndex):
         if ParameterCore.ParameterCore().SKIP_FIRST_ROW and rowIndex == 0:

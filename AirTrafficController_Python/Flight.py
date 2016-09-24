@@ -46,7 +46,7 @@ class Flight:
 
     def compareTo(self, other):                                                                                 # public int compareTo(Flight other){
         cmp = 0.0                                                                                               # Double cmp = 0.0;
-        if ParameterCore.ParameterCore().BOOTSTRAP_ORDER == FlightPlanBootstrapOrderEnum.BY_EXPECT:             # if (ParameterCore.BOOTSTRAP_ORDER == FlightPlanBootstrapOrderEnum.BY_EXPECT){
+        if ParameterCore.ParameterCore().BOOTSTRAP_ORDER == FlightPlanBootstrapOrderEnum.FlightPlanBootstrapOrderEnum().BY_EXPECT:             # if (ParameterCore.BOOTSTRAP_ORDER == FlightPlanBootstrapOrderEnum.BY_EXPECT){
             cmp = self.isolatedSuccessCDF() - other.isolatedSuccessCDF()                                        # cmp = this.isolatedSuccessCDF() - other.isolatedSuccessCDF();
         if abs(cmp) <= ParameterCore.ParameterCore().CLOSE_TO_ZERO:                                             # if (Math.abs(cmp) <= ParameterCore.CLOSE_TO_ZERO){
             cmp = self.getReward() - other.getReward()                                                          # cmp = this.getReward() - other.getReward();
