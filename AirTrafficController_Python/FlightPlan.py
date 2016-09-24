@@ -30,12 +30,12 @@ class FlightPlan:
         probFailChain   = ( 1.0 - probSucc )                    # Double probFailChain    = ( 1.0 - probSucc );
         costFailChain   = costFlipFail                          # Double costFailChain    = costFlipFail;
 
-        for i in range(1, len(self.plan)):                      # for ( int i = 1; i < this.plan.size(); i++ ){
-            reward          = self.plan[i].getReward()                   # reward	   	        = this.plan.get(i).getReward();
-            probSucc        = self.plan[i].getProbability()            # probSucc            = this.plan.get(i).getProbability();
-            tMax            = self.plan[i].getTimeMax()                    # tMax                = this.plan.get(i).getTimeMax();
-            costFlipFail    = self.plan[i].getTimeAverageFailure() # costFlipFail        = this.plan.get(i).getTimeAverageFailure();
-            costFlipSucc    = self.plan[i].getTimeAverageSuccess() # costFlipSucc        = this.plan.get(i).getTimeAverageSuccess();
+        for i in range(1, len(self.plan)):                                  # for ( int i = 1; i < this.plan.size(); i++ ){
+            reward          = self.plan[i].getReward()                      # reward	   	        = this.plan.get(i).getReward();
+            probSucc        = self.plan[i].getProbability()                 # probSucc            = this.plan.get(i).getProbability();
+            tMax            = self.plan[i].getTimeMax()                     # tMax                = this.plan.get(i).getTimeMax();
+            costFlipFail    = self.plan[i].getTimeAverageFailure()          # costFlipFail        = this.plan.get(i).getTimeAverageFailure();
+            costFlipSucc    = self.plan[i].getTimeAverageSuccess()          # costFlipSucc        = this.plan.get(i).getTimeAverageSuccess();
 
             timeExpireCoef  = ParameterCore.ParameterCore().NO_PENELTY_COEFF if (costFlipSucc + costFailChain) < tMax else ParameterCore.ParameterCore().TIME_OUT_PENELTY_COEFF/((ParameterCore.ParameterCore().TIME_OUT_PENELTY_COEFF + costFlipSucc + costFailChain) - tMax)   # timeExpireCoef      = ( (costFlipSucc + costFailChain) < tMax) ?  ParameterCore.NO_PENELTY_COEFF : ParameterCore.TIME_OUT_PENELTY_COEFF/((ParameterCore.TIME_OUT_PENELTY_COEFF + costFlipSucc + costFailChain) - tMax);
             fullSum         += (reward*probSucc*probFailChain*timeExpireCoef)                                                   # fullSum 		   += (reward*probSucc*probFailChain*timeExpireCoef);

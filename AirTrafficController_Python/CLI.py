@@ -3,24 +3,25 @@ import math
 import numpy
 import time
 import sys
-
+import ParameterCore
+import Utils
 
 class CLI:                                                          # public class CLI
     def __init__(self):
-        self.memo = None                # static HashMap<HashSet<String>, FlightPlan> memo
+        self.memo = None                                            # static HashMap<HashSet<String>, FlightPlan> memo
 
-    def runCLI(self, args):             # public static void runCLI(String[] args)
-        waterfallSizeLimit = None       # Integer waterfallSizeLimit	 	= null;
-        control = None                  # String control           	  		= null;
-        inFileName = None               # String inFileName        	  		= null;
-        outFileName = None              # String outFileName      	  		= null;
-        allFlights = None               # List<Flight> allFlights 	  		= null;
-        allPlacements = None            # List<Placement> allPlacements     = null;
+    def runCLI(self, args)  :                                       # public static void runCLI(String[] args)
+        waterfallSizeLimit  = None                                  # Integer waterfallSizeLimit	 	= null;
+        control             = None                                  # String control           	  		= null;
+        inFileName          = None                                  # String inFileName        	  		= null;
+        outFileName         = None                                  # String outFileName      	  		= null;
+        allFlights          = None                                  # List<Flight> allFlights 	  		= null;
+        allPlacements       = None                                  # List<Placement> allPlacements     = null;
 
         self.memo = dict()
 
         if len(args) < 4:                                           # if (args.length < 4)
-            #print(ParameterCore.USAGE)                             # System.out.println(ParameterCore.USAGE);
+            print(ParameterCore.ParameterCore().USAGE)              # System.out.println(ParameterCore.USAGE);
             print("Argument Error: There must be 4 arguments.")     # System.err.println("Argument Error: There must be 4 arguments.");
             exit()                                                  # System.exit(1);
 
@@ -38,7 +39,7 @@ class CLI:                                                          # public cla
                 exit()                                              # System.exit(1);
 
             try:
-                a = 1
+                allFlights = Utils.Utils().readFlightsCSV()
                 # allFlights = Utils.readFlightsCSV(ParamaterCore.csv, inFileName)  # allFlights = Utils.readFlightsCSV(ParameterCore.csv, inFileName);
             except Exception as e:
                 print("Error reading from file: " + inFileName)     # System.out.println("Error reading from file: " + inFileName);
