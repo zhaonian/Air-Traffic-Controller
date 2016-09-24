@@ -3,7 +3,7 @@ import csv
 import decimal
 from ParameterCore import ParameterCore
 from Flight import *
-
+import numpy
 
 class Utils:                              # public class Utils {
     def __init__(self):
@@ -28,37 +28,37 @@ class Utils:                              # public class Utils {
         toRemove = []
         for f in fl:
             if f.getReward() <= ParameterCore.ParameterCore.CLOSE_TO_ZERO:
-                f.setReward(self.rewardMedian * ParameterCore.NO_REWARD_DEMERIT_COEFF)
+                f.setReward(self.rewardMedian * ParameterCore.ParameterCore().NO_REWARD_DEMERIT_COEFF)
                 f.setNoDat(True)
-            if f.getProbability() <= ParameterCore.CLOSE_TO_ZERO:
+            if f.getProbability() <= ParameterCore.ParameterCore().CLOSE_TO_ZERO:
                 f.setProbability(self.fillMedian)
                 f.setNoDat(True)
-            if f.getTimeMax() <= ParameterCore.CLOSE_TO_ZERO:
+            if f.getTimeMax() <= ParameterCore.ParameterCore().CLOSE_TO_ZERO:
                 f.setTimeMax(self.timeMaxMedian)
                 f.setNoDat(True)
-            if f.getTimeAverageFailure() <= ParameterCore.CLOSE_TO_ZERO:
-                if f.getTimeAverageSuccess() > ParameterCore.CLOSE_TO_ZERO:
+            if f.getTimeAverageFailure() <= ParameterCore.ParameterCore().CLOSE_TO_ZERO:
+                if f.getTimeAverageSuccess() > ParameterCore.ParameterCore().CLOSE_TO_ZERO:
                     f.setTimeAverageFailure(f.getTimeAverageSuccess)
                 else:
                     f.setTimeAverageFailure(self.timeAverageFailMedian)
-            if f.getTimeAverageSuccess <= ParameterCore.CLOSE_TO_ZERO:
-                if f.getTimeAverageFailure() > ParameterCore.CLOSE_TO_ZERO:
+            if f.getTimeAverageSuccess <= ParameterCore.ParameterCore().CLOSE_TO_ZERO:
+                if f.getTimeAverageFailure() > ParameterCore.ParameterCore().CLOSE_TO_ZERO:
                     f.setTimeAverageSuccess(f.getTimeAverageFailure)
                 else:
                     f.setTimeAverageSuccess(self.timeAverageSuccMedian)
-            if f.getTimeStdDevFailure() <= ParameterCore.CLOSE_TO_ZERO:
-                if f.getTimeStdDevSuccess() > ParameterCore.CLOSE_TO_ZERO:
+            if f.getTimeStdDevFailure() <= ParameterCore.ParameterCore().CLOSE_TO_ZERO:
+                if f.getTimeStdDevSuccess() > ParameterCore.ParameterCore().CLOSE_TO_ZERO:
                     f.setTimeStdDevFailure(f.getTimeStdDevSuccess)
                 else:
                     f.setTimeStdDevFailure(self.timeStdDevFailMedian)
-            if f.getTimeStdDevSuccess() <= ParameterCore.CLOSE_TO_ZERO:
-                if f.getTimeStdDevFailure() > ParameterCore.CLOSE_TO_ZERO:
+            if f.getTimeStdDevSuccess() <= ParameterCore.ParameterCore().CLOSE_TO_ZERO:
+                if f.getTimeStdDevFailure() > ParameterCore.ParameterCore().CLOSE_TO_ZERO:
                     f.setTimeStdDevSuccess(f.getTimeStdDevFailure())
                 else:
                     f.setTimeStdDevSuccess(self.timeStdDevSuccMedian)
-            if f.getNoDat() and ParameterCore.SKIP_NODAT:
+            if f.getNoDat() and ParameterCore.ParameterCore().SKIP_NODAT:
                     toRemove.append(f)
-            if ParameterCore.SKIP_NODAT:
+            if ParameterCore.ParameterCore().SKIP_NODAT:
                 removeAll(fl, toRemove)
 
     def partitionToPlacements(self, allFlights):
@@ -74,17 +74,17 @@ class Utils:                              # public class Utils {
 
     def optimizePlacement(self, waterfallSizeLimit, control, allPlacements):
         # clearFile(ParameterCore.LOG_LOC)
-        logger = PrintWriter(FileWriter(ParameterCore.LOG_LOC))
-        semaphore = Semaphore(ParameterCore.CORES)
+        logger = PrintWriter(FileWriter(ParameterCore.ParameterCore().LOG_LOC))
+        semaphore = Semaphore(ParameterCore.ParameterCore().CORES)
         alot = []
         done = 1
-        if ParameterCore.RUN_PARALLEL:
+        if ParameterCore.ParameterCore().RUN_PARALLEL:
             for p in allPlacements:
                 alot.append(OptimizingThread(waterfallSizeLimit, control, semaphore, p))
-                alot[]
+
 
     def doProcessRow(self, rowIndex):
-        if ParameterCore.SKIP_FIRST_ROW and rowIndex == 0:
+        if ParameterCore.ParameterCore().SKIP_FIRST_ROW and rowIndex == 0:
             return False
         else:
             return True
@@ -114,13 +114,13 @@ class Utils:                              # public class Utils {
 
         # still have to implement a bunch of code that I don't know how it works
 
-        self.rewardMedian = Median(rewList)
-        self.fillMedian = Median(fillList)
-        self.timeMaxMedian = Median(tMaxList)
-        self.timeAverageFailMedian = Median(atFailList)
-        self.timeAverageSuccMedian = Median(atSuccList)
-        self.timeStdDevFailMedian = Median(stdtFailList)
-        self.timeStdDevSuccMedian = Median(stdtSuccList)
+        self.rewardMedian = numpy.median(rewList)
+        self.fillMedian = numpy.median(fillList)
+        self.timeMaxMedian = numpy.median(tMaxList)
+        self.timeAverageFailMedian = numpy.median(atFailList)
+        self.timeAverageSuccMedian = numpy.median(atSuccList)
+        self.timeStdDevFailMedian = numpy.median(stdtFailList)
+        self.timeStdDevSuccMedian = numpy.median(stdtSuccList)
 
         return flights
 
@@ -163,8 +163,8 @@ class Utils:                              # public class Utils {
 
 
     def nextGaussian(mean, std_dev):
-        return random.gauss(0.0, 1)*(std_dev**2)+mean
+        return random.gauss(0.0, 1)*(std_dev**2) + mean
 
 
     def roundDouble(value, sigFigs):
-        return round( value*(10**sigFigs))/(10**sigFigs)
+        return round(value * (10**sigFigs))/(10**sigFigs)

@@ -9,23 +9,29 @@ import FlightCombinator
 
 class FlightPlanCoordinator:                                                    # public class FlightPlanCoordinator {
     def __init__(self, fp, candidates):
-        return
-
-    waterFallSize = 0                                                           # private Integer      waterFallSize;
-    baseFlightPlan = FlightPlan()                                               # private FlightPlan   baseFlightPlan;
-    random = random.random()                                                    # private Random       random;
-    coordinates = []                                                            # private List<Flight> candidates;
-    temperature = 0.0                                                           # private Double       temperature;
-    candidates = list()
 
 
-    def FlightPlanCoordinator(self, fp, candidates):                            # public FlightPlanCoordinator(FlightPlan fp, List<Flight> candidates) {
-        self.random = random.Random()                                           # this.random = new Random();
-        self.baseFlightPlan = fp                                                # this.baseFlightPlan = fp;
-        self.waterFallSize = len(fp)                                            # this.waterFallSize = fp.size();
-        if candidates != None:                                                  # this.candidates = (candidates != null) ? Collections.synchronizedList(candidates) : new ArrayList<Flight>();
+        # self.waterFallSize = 0                                                           # private Integer      waterFallSize;
+        # self.baseFlightPlan = FlightPlan()                                               # private FlightPlan   baseFlightPlan;
+        # self.random = random.random()                                                    # private Random       random;
+        # self.coordinates = []                                                            # private List<Flight> candidates;
+        # self.temperature = 0.0                                                           # private Double       temperature;
+        # self.candidates = list()
+
+        self.random = random.Random()           # this.random = new Random();
+        self.baseFlightPlan = fp                # this.baseFlightPlan = fp;
+        self.waterFallSize = fp.size()          # this.waterFallSize = fp.size();
+        if candidates != None:                  # this.candidates = (candidates != null) ? Collections.synchronizedList(candidates) : new ArrayList<Flight>();
             self.candidates = candidates
-        self.temperature = ParameterCore.ParameterCore().PROB_RANDOR_BASE       # this.temperature = ParameterCore.PROB_RANDOR_BASE;
+        self.temperature = ParameterCore.ParameterCore().PROB_RANDOR_BASE  # this.temperature = ParameterCore.PROB_RANDOR_BASE;
+
+    # def FlightPlanCoordinator(self, fp, candidates):                            # public FlightPlanCoordinator(FlightPlan fp, List<Flight> candidates) {
+    #     self.random = random.Random()                                           # this.random = new Random();
+    #     self.baseFlightPlan = fp                                                # this.baseFlightPlan = fp;
+    #     self.waterFallSize = len(fp)                                            # this.waterFallSize = fp.size();
+    #     if candidates != None:                                                  # this.candidates = (candidates != null) ? Collections.synchronizedList(candidates) : new ArrayList<Flight>();
+    #         self.candidates = candidates
+    #     self.temperature = ParameterCore.ParameterCore().PROB_RANDOR_BASE       # this.temperature = ParameterCore.PROB_RANDOR_BASE;
 
 
     def cloneCandidates(self):                                                  # private List<Flight> cloneCandidates() {
@@ -146,12 +152,13 @@ class FlightPlanCoordinator:                                                    
         else:
             minFlights = min(self.waterFallSize, len(args))                                                             # Integer minFlights = Math.min(this.waterFallSize, allFlights.size());
             allFlights = args[0:minFlights]
-            fc = FlightCombinator(allFlights, minFlights)                                              # FlightCombinator fc = new FlightCombinator(allFlights, minFlights);
+            fc = FlightCombinator.FlightCombinator(allFlights, minFlights)                                                               # FlightCombinator fc = new FlightCombinator(allFlights, minFlights);
 
-            bestPlan = FlightPlan.FlightPlan(allFlights[0, minFlights])                                                 # FlightPlan bestPlan = new FlightPlan(allFlights.subList(0, minFlights));
+            bestPlan = FlightPlan.FlightPlan(allFlights[0:minFlights])                                                 # FlightPlan bestPlan = new FlightPlan(allFlights.subList(0, minFlights));
             bestPlanScore = bestPlan.getExpectedValue()                                                                 # Double bestPlanScore = bestPlan.getExpectedValue();
 
-            for fp in [fc]:                                                                                               # for (FlightPlan fp : fc) {
+            while fc.has_next():                                                                                               # for (FlightPlan fp : fc) {
+                fp = FlightPlan(fc.get_next())
                 expVal = fp.getExpectedValue()                                                                          # Double expVal = fp.getExpectedValue();
 
                 if bestPlanScore < expVal:                                                                              # if (bestPlanScore.compareTo(expVal) < 0) {

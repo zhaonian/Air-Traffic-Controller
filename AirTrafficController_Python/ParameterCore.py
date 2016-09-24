@@ -2,7 +2,8 @@
 from FlightPlanBootstrapSplitEnum import FlightPlanBootstrapSplitEnum
 from FlightPlanBootstrapOrderEnum import FlightPlanBootstrapOrderEnum
 from UtilityFunctionEnum import UtilityFunctionEnum
-
+import csv
+import timeit
 
 class ParameterCore:                                                                                    # public final class ParameterCore {
     BOOTSTRAP_METHOD           = FlightPlanBootstrapSplitEnum.ORDERED_SPLIT                    # public static final FlightPlanBootstrapSplitEnum BOOTSTRAP_METHOD = FlightPlanBootstrapSplitEnum.ORDERED_SPLIT;
@@ -24,6 +25,7 @@ class ParameterCore:                                                            
     RUN_PARALLEL               = True                                                          # public static final Boolean RUN_PARALLEL			  			  = true;
     SKIP_NODAT                 = True                                                          # public static final Boolean SKIP_NODAT				   		  	  = true;
     #csv                        = CSV.separator(',').noQuote().create()                        # public static final CSV csv                            		 	  = CSV.separator(',').noQuote().create();
+    #csv = csv.writer("research.csv" , delimiter=' ', quoting = csv.QUOTE_NONE)
     SKIP_FIRST_ROW             = True                                                          # public static final Boolean SKIP_FIRST_ROW			   		  	  = true;
     DO_SLS                     = "s"                                                           # public static final String DO_SLS                      		 	  = "s";
     DO_BFS                     = "b"                                                           # public static final String DO_BFS                      		 	  = "b";
