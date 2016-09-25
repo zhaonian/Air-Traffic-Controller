@@ -23,6 +23,3 @@ class Placement:
         return self.fp
 
     # def addFlight(self, f):
-
-
-
