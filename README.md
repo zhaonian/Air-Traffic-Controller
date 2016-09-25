@@ -1,4 +1,3 @@
 # Extremely-Fast-Algorithm
-An extremely fast algorithm!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+An extremely fast algorithm for ads!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-directly import this zip file into Eclipse or........
