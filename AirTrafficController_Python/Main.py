@@ -25,12 +25,12 @@ class Main:                                                             # public
         #    e.printStackTrace()                                         # e.printStackTrace()
         '''
 
-        Testing.Testing().runTestOne()
-        #Testing.runTestTwo()
-        #Testing.runTestThree()
-        #Testing.runTestFour()
-        #Testing.runTestFive()
-        #Testing.runTestSix()
+        #Testing.Testing().runTestOne()
+        # Testing.Testing().runTestTwo()
+        # Testing.Testing().runTestThree()
+        # Testing.Testing().runTestFour()
+        # Testing.Testing().runTestFive()
+        # Testing.Testing().runTestSix()
 
         #Testing.runTestSeven()
         #Testing.runTestEight()
@@ -38,6 +38,8 @@ class Main:                                                             # public
         #Testing.runTestTen()
         #Testing.runTestEleven()
         #Testing.runTestTwelve()
+
+        Testing.Testing().runTestZero() ### home made!
 
 Main().main()
 

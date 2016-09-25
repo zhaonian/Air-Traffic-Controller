@@ -66,7 +66,7 @@ class Flight:
 
 
     def toString(self):                                                                                 # public String toString(){
-        return "%-24s , %-8s , %8f , %8f ; %8f , %8f , %8f %8f , %8f\n".format(                         # return String.format("%-24s , %-8s , %8f , %8f ; %8f , %8f , %8f %8f , %8f\n",
+        return "{} , {} , {} , {} ; {} , {} , {} , {} , {}\n".format(                         # return String.format("%-24s , %-8s , %8f , %8f ; %8f , %8f , %8f %8f , %8f\n",
             self.pTok,self.fid,self.reward,self.probability,self.timeMax,                               # this.pTok,this.fid,this.reward,this.probability,this.timeMax,
             self.timeAverageFailure,self.timeAverageSuccess,                                            # this.timeAverageFailure,this.timeAverageSuccess,
             self.timeStdDevFailure,self.timeStdDevSuccess)                                              # this.timeStdDevFailure,this.timeStdDevSuccess);
@@ -100,7 +100,7 @@ class Flight:
     def getTimeMax(self):
         return self.timeMax
 
-    def getNodat(self):
+    def getNoDat(self):
         return self.noDat
 
     def getTimeAverageFailure(self):
@@ -145,3 +145,5 @@ class Flight:
     def setNoDat(self, b):
         self.noDat = b
 
+    def __eq__(self, other):
+        return self.fid == other.fid

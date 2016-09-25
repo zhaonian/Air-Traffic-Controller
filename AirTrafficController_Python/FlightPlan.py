@@ -10,7 +10,15 @@ class FlightPlan:
     plan = []
 
     def __init__(self, plan):
-        self.plan = plan
+        #print(plan)
+        if type(plan) is list or type(plan) is tuple:
+            self.plan = plan
+        elif type(plan) is FlightPlan:
+            self.plan = plan.plan
+        else:
+            print(type(plan))
+            raise TypeError("plan wrong!")
+
 
 
     #def FlightPlan(self, plan):                                 # public FlightPlan(List<Flight> plan){
@@ -56,14 +64,15 @@ class FlightPlan:
 
         logNormVar   = math.log(math.pow(costFlipSucc_std, 2)/(math.pow(costFlipSucc, 2)) + 1.0)                          # Double logNormVar		  = Math.log((Math.pow(costFlipSucc_std,2)/Math.pow(costFlipSucc,2)) + 1.0);
         logNormMean  = math.log(costFlipSucc) - (logNormVar / 2.0)                                                       # Double logNormMean		  = Math.log(costFlipSucc)-(logNormVar/2.0);
-        logNormalCDF = scipy.stats.lognorm.cdf(tMax, logNormMean, math.sqrt(logNormVar), True, False)                      # Double logNormalCDF       = jdistlib.LogNormal.cumulative(tMax, logNormMean, Math.sqrt(logNormVar), true, false);
+        #logNormPPF   = scipy.stats.lognorm(0.001, math.sqrt(logNormVar), logNormMean)
+        logNormalCDF = scipy.stats.lognorm.cdf(tMax, math.sqrt(logNormVar), logNormMean)
 
         fullSum             = (reward*probSucc*logNormalCDF)     # Double fullSum		      = (reward*probSucc*logNormalCDF);
         probFailChain       = 1.0 - probSucc                     # Double probFailChain      = ( 1.0 - probSucc );
         costFailChain       = costFlipFail                       # Double costFailChain      = costFlipFail;
         normalCDFFailChain  = (math.pow(costFlipFail_std, 2))    # Double normalCDFFailChain = (Math.pow(costFlipFail_std, 2));
 
-        self.probs = self.plan[0].getFid() + " S " + logNormalCDF + ","     # this.probs = this.plan.get(0).getFid() + " S " + logNormalCDF + "," ;
+        self.probs = self.plan[0].getFid() + " S ", logNormalCDF, ","     # this.probs = this.plan.get(0).getFid() + " S " + logNormalCDF + "," ;
 
         for i in range(1, len(self.plan)):                                  # for ( int i = 1; i < this.plan.size(); i++ ){
             reward              = self.plan[i].getReward()                  # reward	   	        = this.plan.get(i).getReward();
@@ -76,9 +85,10 @@ class FlightPlan:
 
             logNormVar   = math.log(((normalCDFFailChain + math.pow(costFlipSucc_std, 2))/math.pow(costFailChain + costFlipSucc, 2)) + 1.0)         # logNormVar		      = Math.log(((normalCDFFailChain+Math.pow(costFlipSucc_std,2))/Math.pow(costFailChain+costFlipSucc,2)) + 1.0);
             logNormMean  = math.log(costFailChain + costFlipSucc) - (logNormVar/2.0)                                                                # logNormMean		      = Math.log(costFailChain+costFlipSucc)-(logNormVar/2.0);
-            logNormalCDF = scipy.stats.norm.cdf(tMax, logNormMean, math.sqrt(logNormVar))                                              # logNormalCDF            = jdistlib.LogNormal.cumulative(tMax, logNormMean, Math.sqrt(logNormVar), true, false);
+            #logNormPPF   = scipy.stats.lognorm(0.001, math.sqrt(logNormVar), logNormMean)
+            logNormalCDF = scipy.stats.lognorm.cdf(tMax, math.sqrt(logNormVar), logNormMean)                                              # logNormalCDF            = jdistlib.LogNormal.cumulative(tMax, logNormMean, Math.sqrt(logNormVar), true, false);
 
-            self.probs          += self.plan[i].getFid() + " S " + logNormalCDF + ","                                   # this.probs           += this.plan.get(i).getFid() + " S " + logNormalCDF + "," ;
+            self.probs          += self.plan[i].getFid() + " S ", logNormalCDF, ","                                   # this.probs           += this.plan.get(i).getFid() + " S " + logNormalCDF + "," ;
 
             fullSum             += (reward*probSucc*probFailChain*logNormalCDF)                                         # fullSum 		     += (reward*probSucc*probFailChain*logNormalCDF);
             probFailChain       *= ( 1.0 - probSucc )                                                                   # probFailChain        *= ( 1.0 - probSucc );
@@ -86,7 +96,7 @@ class FlightPlan:
             normalCDFFailChain  += (math.pow(costFlipFail_std, 2))                                                      # normalCDFFailChain   += (Math.pow(costFlipFail_std, 2))
 
         if len(self.probs) > 0:                                                 # if ( this.probs.length() > 0 ) {
-            self.probs = self.probs[0, len(self.probs) - 1]                # this.probs = this.probs.substring(0, this.probs.length() - 1);
+            self.probs = self.probs[0:(len(self.probs) - 1)]                # this.probs = this.probs.substring(0, this.probs.length() - 1);
         return fullSum                                                          # return fullSum;
 
 
@@ -113,7 +123,8 @@ class FlightPlan:
 
 
     def makeAdmissible(self):                                               # public void makeAdmissible(){
-        self.plan.sort()                                                    # Collections.sort(this.plan);
+        #print(type(self.plan))
+        self.insertionSort(self.plan)                                                    # Collections.sort(this.plan);
         self.plan.reverse()                                                 # Collections.reverse(this.plan);
 
 
@@ -127,15 +138,37 @@ class FlightPlan:
     def toString(self):                                 # public String toString(){
         agg = ""                                        # String agg = "";
         for f in self.plan:                             # for (Flight f : this.plan){
-            agg += f                                    # agg += f;
+            agg += f.toString()                                    # agg += f;
         return agg                                      # return agg;
 
     def size(self):
         return len(self.plan)
     
     def getAsList(self):
+        #print(self.plan)
         return self.plan
 
+
+    def insertionSort(self, alist):
+        for index in range(1, len(alist)):
+
+            currentvalue = alist[index]
+            position = index
+
+            while position > 0 and currentvalue.compareTo(alist[position - 1]) < 0:
+                alist[position] = alist[position - 1]
+                position = position - 1
+
+            alist[position] = currentvalue
+
+    def get(self, n):
+        return self.plan[n]
+
+    def set(self, m, obj):
+        self.plan[m] = obj
+
+    def remove(self, obj):
+        self.plan.remove(obj)
 
 # 	public Iterator<Flight> iterator() {
 # 		return plan.iterator();

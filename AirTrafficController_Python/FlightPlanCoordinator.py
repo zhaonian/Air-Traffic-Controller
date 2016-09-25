@@ -51,15 +51,15 @@ class FlightPlanCoordinator:                                                    
         return fp                                                               # return fp;
 
 
-    def ordSplit(self, wSize, candidates):                                      # public static FlightPlan ordSplit(Integer wSize, List<Flight> candidates) {
-        candidates.sort()                                                       # Collections.sort(candidates);
-        candidates.reverse()                                                    # Collections.reverse(candidates);
-        flist = list()                                                          # List<Flight> flist = new ArrayList<Flight>();
-        for i in range(0, wSize):                                               # for (int i = 0; i < wSize; i++) {
-            flist.append(candidates[i])                                         # flist.add(candidates.get(i));
-        candidates = [x for x in candidates if x not in flist]                  # candidates.removeAll(flist);
-        fp = FlightPlan(flist)                                                  # FlightPlan fp = new FlightPlan(flist);
-        return fp                                                               # return fp;
+    # def ordSplit(self, wSize, candidates):                                      # public static FlightPlan ordSplit(Integer wSize, List<Flight> candidates) {
+    #     candidates.sort()                                                       # Collections.sort(candidates);
+    #     candidates.reverse()                                                    # Collections.reverse(candidates);
+    #     flist = list()                                                          # List<Flight> flist = new ArrayList<Flight>();
+    #     for i in range(0, wSize):                                               # for (int i = 0; i < wSize; i++) {
+    #         flist.append(candidates[i])                                         # flist.add(candidates.get(i));
+    #     candidates = [x for x in candidates if x not in flist]                  # candidates.removeAll(flist);
+    #     fp = FlightPlan(flist)                                                  # FlightPlan fp = new FlightPlan(flist);
+    #     return fp                                                               # return fp;
 
 
     def runSLS(self):                                           # public FlightPlan runSLS() {
@@ -83,12 +83,12 @@ class FlightPlanCoordinator:                                                    
             for i in range(0, ParameterCore.ParameterCore().LOCAL_SEARCH_WINDOW):           # for (int i = 0; i < ParameterCore.LOCAL_SEARCH_WINDOW; i++) {
                 if len(candid) > ParameterCore.ParameterCore().MIN_FLIGHTS_TO_TRY_IMPROVE:  # if (candid.size() > ParameterCore.MIN_FLIGHTS_TO_TRY_IMPROVE) {
                     swapInIndex = self.random.randrange(len(candid) - 1)                    # Integer swapInIndex = this.random.nextInt(candid.size() - 1);
-                    swapOutIndex = self.random.randrange(int(incumbent) - 1)                # Integer swapOutIndex = this.random.nextInt(incumbent.size() - 1);
+                    swapOutIndex = self.random.randrange(incumbent.size() - 1)              # Integer swapOutIndex = this.random.nextInt(incumbent.size() - 1);
                     fpCandidate = incumbent.cloneFlightPlan()                               # FlightPlan fpCandidate = incumbent.cloneFlightPlan();
 
                     swappedIn = candid[swapInIndex]                                         # Flight swappedIn = candid.get(swapInIndex);
-                    swappedOut = fpCandidate[swapOutIndex]                                  # Flight swappedOut = fpCandidate.get(swapOutIndex);
-                    fpCandidate.insert(swapOutIndex, swappedIn)                             # fpCandidate.set(swapOutIndex, swappedIn);
+                    swappedOut = fpCandidate.get(swapOutIndex)                                  # Flight swappedOut = fpCandidate.get(swapOutIndex);
+                    fpCandidate.set(swapOutIndex, swappedIn)                             # fpCandidate.set(swapOutIndex, swappedIn);
 
                     if random.random() < self.temperature:                                  # if (random.nextDouble() < this.temperature) {
                         self.subSeqShuffle(fpCandidate)                                     # subSeqShuffle(fpCandidate);
@@ -102,17 +102,17 @@ class FlightPlanCoordinator:                                                    
                         self.candidates.append(swappedOut)                                  # this.candidates.add(swappedOut);
 
                     else:                                                                   # else {
-                        swapInIndex = self.random.randrange(len(incumbent) - 1)             # Integer swapInIndex = this.random.nextInt(incumbent.size() - 1);
-                        swapOutIndex = self.random.randrange(len(incumbent) - 1)            # Integer swapOutIndex = this.random.nextInt(incumbent.size() - 1);
-                        while (swapOutIndex == swapInIndex and len(incumbent) > 1):         # while (swapOutIndex == swapInIndex && incumbent.size() > 1) {
-                            swapOutIndex = self.random.randrange(len(incumbent) - 1)        # swapOutIndex = this.random.nextInt(incumbent.size() - 1);
+                        swapInIndex = self.random.randrange((incumbent.size()) - 1)             # Integer swapInIndex = this.random.nextInt(incumbent.size() - 1);
+                        swapOutIndex = self.random.randrange((incumbent.size()) - 1)            # Integer swapOutIndex = this.random.nextInt(incumbent.size() - 1);
+                        while (swapOutIndex == swapInIndex and (incumbent.size()) > 1):         # while (swapOutIndex == swapInIndex && incumbent.size() > 1) {
+                            swapOutIndex = self.random.randrange((incumbent.size()) - 1)        # swapOutIndex = this.random.nextInt(incumbent.size() - 1);
                         fpCandidate = incumbent.cloneFlightPlan()                           # FlightPlan fpCandidate = incumbent.cloneFlightPlan();
 
-                        swappedIn = fpCandidate[swapInIndex]                                # Flight swappedIn = fpCandidate.get(swapInIndex);
-                        swappedOut = fpCandidate[swapOutIndex]                              # Flight swappedOut = fpCandidate.get(swapOutIndex);
+                        swappedIn = fpCandidate.get(swapInIndex)                                # Flight swappedIn = fpCandidate.get(swapInIndex);
+                        swappedOut = fpCandidate.get(swapOutIndex)                              # Flight swappedOut = fpCandidate.get(swapOutIndex);
 
-                        fpCandidate.insert(swapOutIndex, swappedIn)                         # fpCandidate.set(swapOutIndex, swappedIn);
-                        fpCandidate.insert(swapInIndex, swappedOut)                         # fpCandidate.set(swapInIndex, swappedOut);
+                        fpCandidate.set(swapOutIndex, swappedIn)                         # fpCandidate.set(swapOutIndex, swappedIn);
+                        fpCandidate.set(swapInIndex, swappedOut)                         # fpCandidate.set(swapInIndex, swappedOut);
 
                         if random.random() < self.temperature:                              # if (random.nextDouble() < this.temperature) {
                             self.subSeqShuffle(fpCandidate)                                 # subSeqShuffle(fpCandidate);
@@ -134,11 +134,11 @@ class FlightPlanCoordinator:                                                    
 
 
     def subSeqShuffle(self, fpCandidate):                                                         # private void subSeqShuffle(FlightPlan fpCandidate) {
-        swapOneIdx = random.randint(len(fpCandidate) - 1)                                                          # Integer swapOneIdx = this.random.nextInt(fpCandidate.size() - 1);
-        swapTwoIdx = random.randint(len(fpCandidate) - 1)                                                          # Integer swapTwoIdx = this.random.nextInt(fpCandidate.size() - 1);
-        while (swapOneIdx == swapTwoIdx and len(fpCandidate) > 1):                                                      # while (swapOneIdx == swapTwoIdx && fpCandidate.size() > 1) {
-            swapOneIdx = random.randint(len(fpCandidate) - 1)                                                     # swapOneIdx = this.random.nextInt(fpCandidate.size() - 1);
-        numpy.random.shuffle(list(fpCandidate)[min(swapOneIdx, swapTwoIdx), max(swapOneIdx, swapTwoIdx)])               # Collections.shuffle(fpCandidate.getAsList().subList(Math.min(swapOneIdx, swapTwoIdx), Math.max(swapOneIdx, swapTwoIdx)));
+        swapOneIdx = random.randint(0, (fpCandidate.size()) - 1)                                                          # Integer swapOneIdx = this.random.nextInt(fpCandidate.size() - 1);
+        swapTwoIdx = random.randint(0, (fpCandidate.size()) - 1)                                                          # Integer swapTwoIdx = this.random.nextInt(fpCandidate.size() - 1);
+        while (swapOneIdx == swapTwoIdx and (fpCandidate.size()) > 1):                                                      # while (swapOneIdx == swapTwoIdx && fpCandidate.size() > 1) {
+            swapOneIdx = random.randint(0, (fpCandidate.size()) - 1)                                                     # swapOneIdx = this.random.nextInt(fpCandidate.size() - 1);
+        numpy.random.shuffle(fpCandidate.getAsList()[min(swapOneIdx, swapTwoIdx):max(swapOneIdx, swapTwoIdx)])               # Collections.shuffle(fpCandidate.getAsList().subList(Math.min(swapOneIdx, swapTwoIdx), Math.max(swapOneIdx, swapTwoIdx)));
 
 
     def runBruteForce(self, *args):                                                                                     # public FlightPlan runBruteForce(List<Flight> allFlights) {
@@ -146,7 +146,8 @@ class FlightPlanCoordinator:                                                    
         # throw new AssertionError("Brute Force Bound Exceeded");
         # }
         if len(args) == 0:
-            allFlights = FlightPlan(self.baseFlightPlan).getAsList()                                                    # List<Flight> allFlights = new FlightPlan(this.baseFlightPlan).getAsList();
+            FP = FlightPlan(self.baseFlightPlan)
+            allFlights = FP.getAsList()                                                   # List<Flight> allFlights = new FlightPlan(this.baseFlightPlan).getAsList();
             allFlights.extend(self.cloneCandidates())                                                                   # allFlights.addAll(cloneCandidates());
             return self.runBruteForce(allFlights)                                                                       # return runBruteForce(allFlights);
         else:
@@ -154,7 +155,7 @@ class FlightPlanCoordinator:                                                    
             allFlights = args[0:minFlights]
             fc = FlightCombinator.FlightCombinator(allFlights, minFlights)                                                               # FlightCombinator fc = new FlightCombinator(allFlights, minFlights);
 
-            bestPlan = FlightPlan.FlightPlan(allFlights[0:minFlights])                                                 # FlightPlan bestPlan = new FlightPlan(allFlights.subList(0, minFlights));
+            bestPlan = FlightPlan(allFlights[0:minFlights])                                                 # FlightPlan bestPlan = new FlightPlan(allFlights.subList(0, minFlights));
             bestPlanScore = bestPlan.getExpectedValue()                                                                 # Double bestPlanScore = bestPlan.getExpectedValue();
 
             while fc.has_next():                                                                                               # for (FlightPlan fp : fc) {
@@ -171,18 +172,29 @@ class FlightPlanCoordinator:                                                    
 
             return bestPlan                                                                                             # return bestPlan;
 
+def ordSplit(wSize, candidates):                                      # public static FlightPlan ordSplit(Integer wSize, List<Flight> candidates) {
+    candidates = insertionSort(candidates)                                                       # Collections.sort(candidates);
+    candidates.reverse()                                                    # Collections.reverse(candidates);
+    flist = list()                                                          # List<Flight> flist = new ArrayList<Flight>();
+    for i in range(0, wSize):                                               # for (int i = 0; i < wSize; i++) {
+        flist.append(candidates[i])                                         # flist.add(candidates.get(i));
+    candidates = [x for x in candidates if x not in flist]                  # candidates.removeAll(flist);
+    fp = FlightPlan(flist)                                                  # FlightPlan fp = new FlightPlan(flist);
+    return fp                                                               # return fp;
 
 
+def insertionSort(alist):
+    for index in range(1, len(alist)):
 
+        currentvalue = alist[index]
+        position = index
 
+        while position > 0 and currentvalue.compareTo(alist[position - 1]) < 0:
+            alist[position] = alist[position - 1]
+            position = position - 1
 
-
-
-
-
-
-
-
+        alist[position] = currentvalue
+    return alist
 
 
 
