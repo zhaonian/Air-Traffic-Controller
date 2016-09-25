@@ -1,3 +1,5 @@
+# need this module?
+
 from FlightPlan import FlightPlan
 
 
@@ -20,5 +22,7 @@ class Placement:
     def getFp(self):
         return self.fp
 
-    def addFlight(self, f):
-        self.fp.
+    # def addFlight(self, f):
+
+
+

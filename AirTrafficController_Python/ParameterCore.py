@@ -1,3 +1,7 @@
+"""
+This file contains all the core constant variables. Organize all of them into ParameterCore class.
+"""
+
 ## import au.com.bytecode.opencsv.CSV;
 from FlightPlanBootstrapSplitEnum import FlightPlanBootstrapSplitEnum
 from FlightPlanBootstrapOrderEnum import FlightPlanBootstrapOrderEnum
@@ -5,7 +9,7 @@ from UtilityFunctionEnum import UtilityFunctionEnum
 import csv
 import timeit
 
-class ParameterCore:                                                                                    # public final class ParameterCore {
+class ParameterCore:                                                                           # public final class ParameterCore {
     BOOTSTRAP_METHOD           = FlightPlanBootstrapSplitEnum.ORDERED_SPLIT                    # public static final FlightPlanBootstrapSplitEnum BOOTSTRAP_METHOD = FlightPlanBootstrapSplitEnum.ORDERED_SPLIT;
     BOOTSTRAP_ORDER            = FlightPlanBootstrapOrderEnum.BY_EXPECT                        # public static final FlightPlanBootstrapOrderEnum BOOTSTRAP_ORDER  = FlightPlanBootstrapOrderEnum.BY_EXPECT;
     UTILITY                    = UtilityFunctionEnum.CDF                                       # public static final UtilityFunctionEnum UTILITY        			  = UtilityFunctionEnum.CDF;
@@ -30,6 +34,7 @@ class ParameterCore:                                                            
     DO_SLS                     = "s"                                                           # public static final String DO_SLS                      		 	  = "s";
     DO_BFS                     = "b"                                                           # public static final String DO_BFS                      		 	  = "b";
     LOG_LOC                    = "./WO.log"                                                    # public static final String  LOG_LOC		  			   		  	  = "./WO.log";
+
     USAGE                      = "Usage: ./Main.py (s|b) waterfallSize inFile.csv outFile.csv\n" \
                                           + "Where s is the character literal \"s\" and indicates that SLS is to be run.\n" \
                                           + "Where b is the character literal \"b\" and indicates that brute force search is to be run.\n" \

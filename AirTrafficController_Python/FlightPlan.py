@@ -1,3 +1,7 @@
+"""
+This module contains all the math methods for calculating the best FlightPlan (ad plan).
+"""
+
 import math
 import scipy.stats
 import Flight
@@ -16,13 +20,10 @@ class FlightPlan:
         elif type(plan) is FlightPlan:
             self.plan = plan.plan
         else:
-            print(type(plan))
+            #print(type(plan))
             raise TypeError("plan wrong!")
-
-
-
-    #def FlightPlan(self, plan):                                 # public FlightPlan(List<Flight> plan){
-                                                # this.plan = Collections.synchronizedList(plan);
+                                                                # public FlightPlan(List<Flight> plan){
+                                                                # this.plan = Collections.synchronizedList(plan);
                                                                 # public FlightPlan(FlightPlan fp){
                                                                 # this.plan = fp.getAsList();
 
@@ -33,7 +34,12 @@ class FlightPlan:
         costFlipFail    = self.plan[0].getTimeAverageFailure()  # Double costFlipFail     = this.plan.get(0).getTimeAverageFailure();
         costFlipSucc    = self.plan[0].getTimeAverageSuccess()  # Double costFlipSucc     = this.plan.get(0).getTimeAverageSuccess();
 
-        timeExpireCoef  = ParameterCore.ParameterCore().NO_PENELTY_COEFF if ((costFlipSucc) < tMax) else ParameterCore.ParameterCore().TIME_OUT_PENELTY_COEFF/(ParameterCore.ParameterCore().TIME_OUT_PENELTY_COEFF + costFlipSucc - tMax)  # Double timeExpireCoef   = ( (costFlipSucc) < tMax) ?  ParameterCore.NO_PENELTY_COEFF : ParameterCore.TIME_OUT_PENELTY_COEFF/(ParameterCore.TIME_OUT_PENELTY_COEFF + costFlipSucc - tMax)  ;
+        timeExpireCoef  = ParameterCore.ParameterCore().NO_PENELTY_COEFF if ((costFlipSucc) < tMax) \
+            else ParameterCore.ParameterCore().TIME_OUT_PENELTY_COEFF/(ParameterCore.ParameterCore().TIME_OUT_PENELTY_COEFF
+                                                                       + costFlipSucc - tMax)
+        # Double timeExpireCoef   = ( (costFlipSucc) < tMax) ?  ParameterCore.NO_PENELTY_COEFF :
+        # ParameterCore.TIME_OUT_PENELTY_COEFF/(ParameterCore.TIME_OUT_PENELTY_COEFF + costFlipSucc - tMax)  ;
+
         fullSum         = (reward*probSucc*timeExpireCoef)      # Double fullSum		    = (reward*probSucc*timeExpireCoef);
         probFailChain   = ( 1.0 - probSucc )                    # Double probFailChain    = ( 1.0 - probSucc );
         costFailChain   = costFlipFail                          # Double costFailChain    = costFlipFail;
@@ -101,7 +107,7 @@ class FlightPlan:
 
 
     def getExpectedValue(self):
-        #try:
+        try:
             if len(self.plan) == 0:                                                         # if (this.plan.isEmpty()){
                 return 0.0                                                                  # return 0.0;
 
@@ -110,8 +116,8 @@ class FlightPlan:
 
             if ParameterCore.ParameterCore().UTILITY == UtilityFunctionEnum.UtilityFunctionEnum().DELTA:          # if (ParameterCore.UTILITY == UtilityFunctionEnum.DELTA){
                 return self.getExpectedValueDeltaFunc()                                     # return getExpectedValueDeltaFunc();
-        #except:
-         #   raise AssertionError()                                                          # throw new AssertionError();
+        except:
+            raise AssertionError()                                                          # throw new AssertionError();
 
 
     def isAdmissible(self):                                         # public Boolean isAdmissible(){
@@ -169,50 +175,3 @@ class FlightPlan:
 
     def remove(self, obj):
         self.plan.remove(obj)
-
-# 	public Iterator<Flight> iterator() {
-# 		return plan.iterator();
-# 	}
-# 	public List<Flight> getAsList(){
-# 		return this.plan;
-# 	}
-# 	public Integer size(){
-# 		return this.plan.size();
-# 	}
-# 	public Flight get(Integer i){
-# 		return this.plan.get(i);
-# 	}
-# 	public void set(Integer i, Flight f){
-# 		this.plan.set(i, f);
-# 	}
-# 	public void addFlight(Flight f) {
-# 		this.plan.add(f);
-# 	}
-# }
-
-
-# Don't think need it so far.
-# No
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
