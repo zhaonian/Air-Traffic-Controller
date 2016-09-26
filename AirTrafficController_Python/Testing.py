@@ -292,38 +292,45 @@ class Testing:                                                                  
         candidates.append(Flight.Flight("steve", "pass", 77.528814 , 0.236376 , 4.000000 , 0.458126 , 0.621779, 0.808786 , 0.652340))
         candidates.append(Flight.Flight("quin", "pass", 67.934971 , 0.117932 , 4.000000 , 0.959371 , 0.878957, 0.888045 , 0.411988))
 
+        candidates2 = []
+        candidates2.append(Flight.Flight("modern", "pass", 99.866374 , 0.015579 , 4.000000 , 0.098856 , 0.757253, 0.962645 , 0.495050))
+        candidates2.append(Flight.Flight("major", "pass", 17.104479 , 0.298730 , 4.000000 , 0.386326 , 0.577184, 0.261103 , 0.611658))
+        candidates2.append(Flight.Flight("general", "pass", 99.065588 , 0.521137 , 4.000000 , 0.671081 , 0.284618, 0.665309 , 0.041733))
+        candidates2.append(Flight.Flight("steve", "pass", 77.528814 , 0.236376 , 4.000000 , 0.458126 , 0.621779, 0.808786 , 0.652340))
+        candidates2.append(Flight.Flight("quin", "pass", 67.934971 , 0.117932 , 4.000000 , 0.959371 , 0.878957, 0.888045 , 0.411988))
+
         fpc = FlightPlanCoordinator.FlightPlanCoordinator(fp, candidates)
 
         print("INITIAL")  # System.out.println("INITIAL");
-        for f in [fp]:  # for (Flight f : fp) {
-            print(f)  # System.out.println(f);
+        for f in fp.getAsList():  # for (Flight f : fp) {
+            print(f.toString())  # System.out.println(f);
 
         print("Is admissible? " + str(fp.isAdmissible()) +  # System.out.println("Is admissible? " + fp.isAdmissible() +
               " Expected value: " + str(fp.getExpectedValue()))  # " Expected value: " + fp.getExpectedValue());
 
         fp.makeAdmissible()  # fp.makeAdmissible();
         print("MADE ADMISSIBLE")  # System.out.println("MADE ADMISSIBLE");
-        for f in [fp]:  # for (Flight f : fp) {
-            print(f)  # System.out.println(f);
+        for f in fp.getAsList():  # for (Flight f : fp) {
+            print(f.toString())  # System.out.println(f);
             print(
                 "Is admissible? " + str(fp.isAdmissible()) +  # System.out.println("Is admissible? " + fp.isAdmissible() +
                 " Expected value: " + str(fp.getExpectedValue()))  # " Expected value: " + fp.getExpectedValue());
 
         print("IMPROVED")  # System.out.println("IMPROVED");
-        fpi = fpc.runSLS()  # FlightPlan fpi = fpc.runSLS();
+        #fpi = fpc.runSLS()  # FlightPlan fpi = fpc.runSLS();
 
-        for f in fpi.getAsList():  # for (Flight f : fpi) {
-            print(f.toString())  # System.out.println(f);
+        #for f in fpi.getAsList():  # for (Flight f : fpi) {
+        #    print(f.toString())  # System.out.println(f);
 
-        print(
-            "Is admissible? " + str(fpi.isAdmissible()) +  # System.out.println("Is admissible? " + fpi.isAdmissible() +
-            " Expected value: " + str(fpi.getExpectedValue()))  # " Expected value: " + fpi.getExpectedValue());
+        #print(
+        #    "Is admissible? " + str(fpi.isAdmissible()) +  # System.out.println("Is admissible? " + fpi.isAdmissible() +
+        #    " Expected value: " + str(fpi.getExpectedValue()))  # " Expected value: " + fpi.getExpectedValue());
 
         print("BRUTE FORCE")  # System.out.println("BRUTE FORCE");
         candidates.extend(flights)  # candidates.addAll(flights);
         fp1 = FlightPlanCoordinator.ordSplit(ParameterCore.ParameterCore().BRUTE_BOUND - 1,
                                              candidates)  # FlightPlan fp1 = FlightPlanCoordinator.ordSplit(ParameterCore.BRUTE_BOUND-1, candidates);
-#        fpc = FlightPlanCoordinator.FlightPlanCoordinator(fp1, list())  # fpc = new FlightPlanCoordinator(fp1, new ArrayList<Flight> ());
+        fpc = FlightPlanCoordinator.FlightPlanCoordinator(fp, candidates2)  # fpc = new FlightPlanCoordinator(fp1, new ArrayList<Flight> ());
         fpb = fpc.runBruteForce()  # FlightPlan fpb = fpc.runBruteForce();
 
         for f in fpb.getAsList():  # for (Flight f : fpb) {

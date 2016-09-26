@@ -39,9 +39,9 @@ class FlightCombinator:                                         # public class F
         return new_i
 
 
-# def test_FC():
-#     fc = FlightCombinator([1,2,3,5,6,7], 4)
-#     while fc.has_next():
-#         print(fc.get_next())
+#def test_FC():
+#    fc = FlightCombinator([1,2,3,5,6,7], 4)
+#    while fc.has_next():
+#        print(fc.get_next())
 #
-# test_FC()
+#test_FC()

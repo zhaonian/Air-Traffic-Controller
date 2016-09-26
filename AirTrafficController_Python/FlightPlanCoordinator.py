@@ -168,15 +168,14 @@ class FlightPlanCoordinator:                                                    
         """
         Run the Brute Force when the number of flights does not exceed the Brute_Bond defined in ParameterCore.py
         """
-        print(self.baseFlightPlan)
         if len(args) == 0:
             FP = FlightPlan.FlightPlan(self.baseFlightPlan)
             allFlights = FP.getAsList()                                                                                 # List<Flight> allFlights = new FlightPlan(this.baseFlightPlan).getAsList();
             allFlights.extend(self.cloneCandidates())                                                                   # allFlights.addAll(cloneCandidates());
             return self.runBruteForce(allFlights)                                                                       # return runBruteForce(allFlights);
         else:
-            minFlights = min(self.waterFallSize, len(args))                                                             # Integer minFlights = Math.min(this.waterFallSize, allFlights.size());
             allFlights = args[0]
+            minFlights = min(self.waterFallSize, len(allFlights))                                                             # Integer minFlights = Math.min(this.waterFallSize, allFlights.size());
             fc = FlightCombinator.FlightCombinator(allFlights, minFlights)                                              # FlightCombinator fc = new FlightCombinator(allFlights, minFlights);
 
             bestPlan = FlightPlan.FlightPlan(allFlights[0:minFlights])                                                             # FlightPlan bestPlan = new FlightPlan(allFlights.subList(0, minFlights));
