@@ -17,8 +17,8 @@ I used these libraries to calculate some mathematical and statistical data such 
 import Testing
 import CLI
 
-if __name__ == '__main__':
-
+#if __name__ == '__main__':
+def Main():
     """
     Choose the test file you want to run here
     """
@@ -48,7 +48,7 @@ if __name__ == '__main__':
     """
 
     # Testing.Testing().runTestOne()
-    Testing.Testing().runTestTwo()
+    # Testing.Testing().runTestTwo()
     # Testing.Testing().runTestThree()
     # Testing.Testing().runTestFour()
     # Testing.Testing().runTestFive()
@@ -61,8 +61,9 @@ if __name__ == '__main__':
     #Testing.runTestEleven()
     #Testing.runTestTwelve()
 
-    #Testing.Testing().runTestZero() ### home made test!
+    Testing.Testing().runTestZero() ### home made test!
 
+Main()
 
 
 

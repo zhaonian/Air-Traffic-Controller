@@ -8,6 +8,7 @@ import random
 import ParameterCore
 import Flight
 import FlightCombinator
+import pdb
 
 
 class FlightPlanCoordinator:                                                               # public class FlightPlanCoordinator {
@@ -88,6 +89,7 @@ class FlightPlanCoordinator:                                                    
         Return:
             incumbent: FlightPlan
         """
+	#pdb.set_trace()
         incumbent = self.baseFlightPlan.cloneFlightPlan()
         incumbentScore = incumbent.getExpectedValue()
         improvement = incumbentScore
@@ -96,10 +98,11 @@ class FlightPlanCoordinator:                                                    
         if (len(candid) + incumbent.size()) < ParameterCore.ParameterCore().BRUTE_BOUND:    # if ((candid.size() + incumbent.size()) < ParameterCore.BRUTE_BOUND) {
             return self.runBruteForce()                                                     # return runBruteForce();
 
-        while improvement > ParameterCore.ParameterCore().IMPROVEMENT_THRESHOLD:            # while (improvement.compareTo(ParameterCore.IMPROVEMENT_THRESHOLD) > 0) {
+        while improvement > ParameterCore.ParameterCore.IMPROVEMENT_THRESHOLD:            # while (improvement.compareTo(ParameterCore.IMPROVEMENT_THRESHOLD) > 0) {
             improvement = 0.0                                                               # improvement = 0.0;
-            for i in range(0, ParameterCore.ParameterCore().LOCAL_SEARCH_WINDOW):           # for (int i = 0; i < ParameterCore.LOCAL_SEARCH_WINDOW; i++) {
-                if len(candid) > ParameterCore.ParameterCore().MIN_FLIGHTS_TO_TRY_IMPROVE:  # if (candid.size() > ParameterCore.MIN_FLIGHTS_TO_TRY_IMPROVE) {
+            print(improvement)
+            for i in range(0, ParameterCore.ParameterCore.LOCAL_SEARCH_WINDOW):           # for (int i = 0; i < ParameterCore.LOCAL_SEARCH_WINDOW; i++) {
+                if len(candid) > ParameterCore.ParameterCore.MIN_FLIGHTS_TO_TRY_IMPROVE:  # if (candid.size() > ParameterCore.MIN_FLIGHTS_TO_TRY_IMPROVE) {
                     swapInIndex = self.random.randrange(len(candid) - 1)                    # Integer swapInIndex = this.random.nextInt(candid.size() - 1);
                     swapOutIndex = self.random.randrange(incumbent.size() - 1)              # Integer swapOutIndex = this.random.nextInt(incumbent.size() - 1);
                     fpCandidate = incumbent.cloneFlightPlan()                               # FlightPlan fpCandidate = incumbent.cloneFlightPlan();
