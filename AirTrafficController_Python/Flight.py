@@ -7,7 +7,7 @@ import scipy.stats
 import ParameterCore
 import FlightPlanBootstrapOrderEnum
 
-class Flight:
+class Flight(object):
     """
     A Flight object stands for a single ad.
     """

@@ -282,6 +282,7 @@ class Testing:                                                                  
         flights.append(Flight.Flight("moe", "moe", 79.763438 , 0.179283 , 4.000000 , 0.213952 , 0.982373, 0.253538 , 0.635217))
         flights.append(Flight.Flight("alan", "alan", 71.329610 , 0.930679 , 4.000000 , 0.117261 , 0.181536, 0.901166 , 0.062637))
 
+
         fp = FlightPlan.FlightPlan(flights)
 
         candidates = []
@@ -322,8 +323,7 @@ class Testing:                                                                  
         candidates.extend(flights)  # candidates.addAll(flights);
         fp1 = FlightPlanCoordinator.ordSplit(ParameterCore.ParameterCore().BRUTE_BOUND - 1,
                                              candidates)  # FlightPlan fp1 = FlightPlanCoordinator.ordSplit(ParameterCore.BRUTE_BOUND-1, candidates);
-        fpc = FlightPlanCoordinator.FlightPlanCoordinator(fp1,
-                                                          list())  # fpc = new FlightPlanCoordinator(fp1, new ArrayList<Flight> ());
+#        fpc = FlightPlanCoordinator.FlightPlanCoordinator(fp1, list())  # fpc = new FlightPlanCoordinator(fp1, new ArrayList<Flight> ());
         fpb = fpc.runBruteForce()  # FlightPlan fpb = fpc.runBruteForce();
 
         for f in fpb.getAsList():  # for (Flight f : fpb) {

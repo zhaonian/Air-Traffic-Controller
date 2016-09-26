@@ -2,7 +2,7 @@
 This file contains the cores of this project such as Brute Force and SLS algorithms. These algorithms are used to get the best FlightPlan.
 """
 
-from FlightPlan import FlightPlan
+import FlightPlan
 import numpy
 import random
 import ParameterCore
@@ -168,21 +168,23 @@ class FlightPlanCoordinator:                                                    
         """
         Run the Brute Force when the number of flights does not exceed the Brute_Bond defined in ParameterCore.py
         """
+        print(self.baseFlightPlan)
         if len(args) == 0:
-            FP = FlightPlan(self.baseFlightPlan)
+            FP = FlightPlan.FlightPlan(self.baseFlightPlan)
             allFlights = FP.getAsList()                                                                                 # List<Flight> allFlights = new FlightPlan(this.baseFlightPlan).getAsList();
             allFlights.extend(self.cloneCandidates())                                                                   # allFlights.addAll(cloneCandidates());
             return self.runBruteForce(allFlights)                                                                       # return runBruteForce(allFlights);
         else:
             minFlights = min(self.waterFallSize, len(args))                                                             # Integer minFlights = Math.min(this.waterFallSize, allFlights.size());
-            allFlights = args[0:minFlights]
+            allFlights = args[0]
             fc = FlightCombinator.FlightCombinator(allFlights, minFlights)                                              # FlightCombinator fc = new FlightCombinator(allFlights, minFlights);
 
-            bestPlan = FlightPlan(allFlights[0:minFlights])                                                             # FlightPlan bestPlan = new FlightPlan(allFlights.subList(0, minFlights));
+            bestPlan = FlightPlan.FlightPlan(allFlights[0:minFlights])                                                             # FlightPlan bestPlan = new FlightPlan(allFlights.subList(0, minFlights));
+
             bestPlanScore = bestPlan.getExpectedValue()                                                                 # Double bestPlanScore = bestPlan.getExpectedValue();
 
             while fc.has_next():                                                                                        # for (FlightPlan fp : fc) {
-                fp = FlightPlan(fc.get_next())
+                fp = FlightPlan.FlightPlan(fc.get_next())
                 expVal = fp.getExpectedValue()                                                                          # Double expVal = fp.getExpectedValue();
 
                 if bestPlanScore < expVal:                                                                              # if (bestPlanScore.compareTo(expVal) < 0) {
@@ -196,13 +198,13 @@ class FlightPlanCoordinator:                                                    
             return bestPlan                                                                                             # return bestPlan;
 
 def ordSplit(wSize, candidates):                                            # public static FlightPlan ordSplit(Integer wSize, List<Flight> candidates) {
-    candidates = insertionSort(candidates)                                  # Collections.sort(candidates);
+    insertionSort(candidates)                                              # Collections.sort(candidates);
     candidates.reverse()                                                    # Collections.reverse(candidates);
     flist = list()                                                          # List<Flight> flist = new ArrayList<Flight>();
     for i in range(0, wSize):                                               # for (int i = 0; i < wSize; i++) {
         flist.append(candidates[i])                                         # flist.add(candidates.get(i));
     candidates = [x for x in candidates if x not in flist]                  # candidates.removeAll(flist);
-    fp = FlightPlan(flist)                                                  # FlightPlan fp = new FlightPlan(flist);
+    fp = FlightPlan.FlightPlan(flist)                                                  # FlightPlan fp = new FlightPlan(flist);
     return fp                                                               # return fp;
 
 
@@ -221,10 +223,8 @@ def insertionSort(alist):
             position = position - 1
 
         alist[position] = currentvalue
-    return alist
 
 
 
 
 
->>>>>>> 3e8103f1b44c050ccf9e277c55c3d3eab7ea3d64

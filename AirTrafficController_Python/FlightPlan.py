@@ -9,18 +9,17 @@ import ParameterCore
 import UtilityFunctionEnum
 
 
-class FlightPlan:
+class FlightPlan(object):
     probs = ""
     plan = []
 
     def __init__(self, plan):
-        #print(plan)
         if type(plan) is list or type(plan) is tuple:
             self.plan = plan
         elif type(plan) is FlightPlan:
             self.plan = plan.plan
         else:
-            #print(type(plan))
+            print(type(plan))
             raise TypeError("plan wrong!")
                                                                 # public FlightPlan(List<Flight> plan){
                                                                 # this.plan = Collections.synchronizedList(plan);
@@ -107,7 +106,7 @@ class FlightPlan:
 
 
     def getExpectedValue(self):
-        try:
+        # try:
             if len(self.plan) == 0:                                                         # if (this.plan.isEmpty()){
                 return 0.0                                                                  # return 0.0;
 
@@ -116,8 +115,8 @@ class FlightPlan:
 
             if ParameterCore.ParameterCore().UTILITY == UtilityFunctionEnum.UtilityFunctionEnum().DELTA:          # if (ParameterCore.UTILITY == UtilityFunctionEnum.DELTA){
                 return self.getExpectedValueDeltaFunc()                                     # return getExpectedValueDeltaFunc();
-        except:
-            raise AssertionError()                                                          # throw new AssertionError();
+        # except:
+        #     raise AssertionError()                                                          # throw new AssertionError();
 
 
     def isAdmissible(self):                                         # public Boolean isAdmissible(){
