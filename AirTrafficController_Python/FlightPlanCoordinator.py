@@ -100,8 +100,8 @@ class FlightPlanCoordinator:                                                    
             improvement = 0.0                                                               # improvement = 0.0;
             for i in range(0, ParameterCore.ParameterCore().LOCAL_SEARCH_WINDOW):           # for (int i = 0; i < ParameterCore.LOCAL_SEARCH_WINDOW; i++) {
                 if len(candid) > ParameterCore.ParameterCore().MIN_FLIGHTS_TO_TRY_IMPROVE:  # if (candid.size() > ParameterCore.MIN_FLIGHTS_TO_TRY_IMPROVE) {
-                    swapInIndex = self.random.randrange(len(candid) - 1)                    # Integer swapInIndex = this.random.nextInt(candid.size() - 1);
-                    swapOutIndex = self.random.randrange(incumbent.size() - 1)              # Integer swapOutIndex = this.random.nextInt(incumbent.size() - 1);
+                    swapInIndex = random.randrange(len(candid) - 1)                    # Integer swapInIndex = this.random.nextInt(candid.size() - 1);
+                    swapOutIndex = random.randrange(incumbent.size() - 1)              # Integer swapOutIndex = this.random.nextInt(incumbent.size() - 1);
                     fpCandidate = incumbent.cloneFlightPlan()                               # FlightPlan fpCandidate = incumbent.cloneFlightPlan();
 
                     swappedIn = candid[swapInIndex]                                         # Flight swappedIn = candid.get(swapInIndex);
@@ -120,10 +120,10 @@ class FlightPlanCoordinator:                                                    
                         self.candidates.append(swappedOut)                                  # this.candidates.add(swappedOut);
 
                     else:                                                                   # else {
-                        swapInIndex = self.random.randrange((incumbent.size()) - 1)         # Integer swapInIndex = this.random.nextInt(incumbent.size() - 1);
-                        swapOutIndex = self.random.randrange((incumbent.size()) - 1)        # Integer swapOutIndex = this.random.nextInt(incumbent.size() - 1);
+                        swapInIndex = random.randrange((incumbent.size()) - 1)         # Integer swapInIndex = this.random.nextInt(incumbent.size() - 1);
+                        swapOutIndex = random.randrange((incumbent.size()) - 1)        # Integer swapOutIndex = this.random.nextInt(incumbent.size() - 1);
                         while (swapOutIndex == swapInIndex and (incumbent.size()) > 1):     # while (swapOutIndex == swapInIndex && incumbent.size() > 1) {
-                            swapOutIndex = self.random.randrange((incumbent.size()) - 1)    # swapOutIndex = this.random.nextInt(incumbent.size() - 1);
+                            swapOutIndex = random.randrange((incumbent.size()) - 1)    # swapOutIndex = this.random.nextInt(incumbent.size() - 1);
                         fpCandidate = incumbent.cloneFlightPlan()                           # FlightPlan fpCandidate = incumbent.cloneFlightPlan();
 
                         swappedIn = fpCandidate.get(swapInIndex)                            # Flight swappedIn = fpCandidate.get(swapInIndex);
