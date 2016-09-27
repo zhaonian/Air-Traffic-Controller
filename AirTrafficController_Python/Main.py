@@ -47,7 +47,7 @@ def Main():
         #    e.printStackTrace()                                         # e.printStackTrace()
     """
 
-    #Testing.Testing().runTestOne()
+    Testing.Testing().runTestOne()
     # Testing.Testing().runTestTwo()
     # Testing.Testing().runTestThree()
     # Testing.Testing().runTestFour()
@@ -61,7 +61,7 @@ def Main():
     #Testing.runTestEleven()
     #Testing.runTestTwelve()
 
-    Testing.Testing().runTestZero() ### home made test!
+    #Testing.Testing().runTestZero() ### home made test!
 
 Main()
 
