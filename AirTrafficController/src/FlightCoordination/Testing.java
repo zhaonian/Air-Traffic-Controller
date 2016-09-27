@@ -173,7 +173,7 @@ public class Testing {
 		System.out.println(fp.getExpectedValue());
 	}
 
-	static void runTestTwelve() {
+	static void runTestTwelve() throws Exception {
 		ArrayList<Flight> flights = new ArrayList<Flight>();
 		flights.add(new Flight("11fb9285d31da9ab795fb607","3290",1360000.0,0.0548,10.0,0.79781551,0.79781551,1.16968098,0.79781551));
 		flights.add(new Flight("11fb9285d31da9ab795fb607","4093",670000.0,0.0035,10.0,0.03407255,0.03407255,0.00698578,0.03407255));
@@ -222,10 +222,10 @@ public class Testing {
 		flights.add(new Flight("miny", "miny", RandFloat(1, 100), RandFloat(0, 1), 4.0, RandFloat(0, 1),RandFloat(0, 1), RandFloat(0, 1),RandFloat(0, 1)));
 		flights.add(new Flight("moe", "moe", RandFloat(1, 100), RandFloat(0, 1), 4.0, RandFloat(0, 1),RandFloat(0, 1), RandFloat(0, 1),RandFloat(0, 1)));
 		flights.add(new Flight("alan", "alan", RandFloat(1, 100), RandFloat(0, 1), 4.0, RandFloat(0, 1),RandFloat(0, 1), RandFloat(0, 1),RandFloat(0, 1)));
-		flights.add(new Flight("quxtor", "quxtor", RandFloat(1, 100), RandFloat(0, 1), 4.0, RandFloat(0, 1),RandFloat(0, 1), RandFloat(0, 1),RandFloat(0, 1)));
-		flights.add(new Flight("bim", "bim", RandFloat(1, 100), RandFloat(0, 1), 4.0, RandFloat(0, 1),RandFloat(0, 1), RandFloat(0, 1),RandFloat(0, 1)));
-		flights.add(new Flight("bam", "bam", RandFloat(1, 100), RandFloat(0, 1), 4.0, RandFloat(0, 1),RandFloat(0, 1), RandFloat(0, 1),RandFloat(0, 1)));
-		flights.add(new Flight("boom", "boom", RandFloat(1, 100), RandFloat(0, 1), 4.0, RandFloat(0, 1),RandFloat(0, 1), RandFloat(0, 1),RandFloat(0, 1)));
+//		flights.add(new Flight("quxtor", "quxtor", RandFloat(1, 100), RandFloat(0, 1), 4.0, RandFloat(0, 1),RandFloat(0, 1), RandFloat(0, 1),RandFloat(0, 1)));
+//		flights.add(new Flight("bim", "bim", RandFloat(1, 100), RandFloat(0, 1), 4.0, RandFloat(0, 1),RandFloat(0, 1), RandFloat(0, 1),RandFloat(0, 1)));
+//		flights.add(new Flight("bam", "bam", RandFloat(1, 100), RandFloat(0, 1), 4.0, RandFloat(0, 1),RandFloat(0, 1), RandFloat(0, 1),RandFloat(0, 1)));
+//		flights.add(new Flight("boom", "boom", RandFloat(1, 100), RandFloat(0, 1), 4.0, RandFloat(0, 1),RandFloat(0, 1), RandFloat(0, 1),RandFloat(0, 1)));
 		//flights.add(new Flight("snig", "snig", RandFloat(0, 1), RandFloat(1, 100), RandFloat(0, 1),RandFloat(0, 1),0.05,0.05));
 		//flights.add(new Flight("snag", "snag", RandFloat(0, 1), RandFloat(1, 100), RandFloat(0, 1),RandFloat(0, 1),0.05,0.05));
 		//flights.add(new Flight("snoom", "snoom", RandFloat(0, 1), RandFloat(1, 100), RandFloat(0, 1),RandFloat(0, 1),0.05,0.05));
@@ -236,13 +236,15 @@ public class Testing {
 		candidates.add(new Flight("general", "pass",RandFloat(1, 100), RandFloat(0, 1), 4.0, RandFloat(0, 1),RandFloat(0, 1), RandFloat(0, 1),RandFloat(0, 1)));
 		candidates.add(new Flight("steve", "pass",RandFloat(1, 100), RandFloat(0, 1), 4.0, RandFloat(0, 1),RandFloat(0, 1), RandFloat(0, 1),RandFloat(0, 1)));
 		candidates.add(new Flight("quin", "pass",RandFloat(1, 100), RandFloat(0, 1), 4.0, RandFloat(0, 1),RandFloat(0, 1), RandFloat(0, 1),RandFloat(0, 1)));
-		candidates.add(new Flight("dario", "pass",RandFloat(1, 100), RandFloat(0, 1), 4.0, RandFloat(0, 1),RandFloat(0, 1), RandFloat(0, 1),RandFloat(0, 1)));
-		candidates.add(new Flight("mario", "pass",RandFloat(1, 100), RandFloat(0, 1), 4.0, RandFloat(0, 1),RandFloat(0, 1), RandFloat(0, 1),RandFloat(0, 1)));
-		candidates.add(new Flight("lario", "pass",RandFloat(1, 100), RandFloat(0, 1), 4.0, RandFloat(0, 1),RandFloat(0, 1), RandFloat(0, 1),RandFloat(0, 1)));
-		candidates.add(new Flight("bario", "pass",RandFloat(1, 100), RandFloat(0, 1), 4.0, RandFloat(0, 1),RandFloat(0, 1), RandFloat(0, 1),RandFloat(0, 1)));
-		candidates.add(new Flight("snarf", "pass",RandFloat(1, 100), RandFloat(0, 1), 4.0, RandFloat(0, 1),RandFloat(0, 1), RandFloat(0, 1),RandFloat(0, 1)));
-		candidates.add(new Flight("snarfsnarf", "pass",RandFloat(1, 100), RandFloat(0, 1), 4.0, RandFloat(0, 1),RandFloat(0, 1), RandFloat(0, 1),RandFloat(0, 1)));
-
+//		candidates.add(new Flight("dario", "pass",RandFloat(1, 100), RandFloat(0, 1), 4.0, RandFloat(0, 1),RandFloat(0, 1), RandFloat(0, 1),RandFloat(0, 1)));
+//		candidates.add(new Flight("mario", "pass",RandFloat(1, 100), RandFloat(0, 1), 4.0, RandFloat(0, 1),RandFloat(0, 1), RandFloat(0, 1),RandFloat(0, 1)));
+//		candidates.add(new Flight("lario", "pass",RandFloat(1, 100), RandFloat(0, 1), 4.0, RandFloat(0, 1),RandFloat(0, 1), RandFloat(0, 1),RandFloat(0, 1)));
+//		candidates.add(new Flight("bario", "pass",RandFloat(1, 100), RandFloat(0, 1), 4.0, RandFloat(0, 1),RandFloat(0, 1), RandFloat(0, 1),RandFloat(0, 1)));
+//		candidates.add(new Flight("snarf", "pass",RandFloat(1, 100), RandFloat(0, 1), 4.0, RandFloat(0, 1),RandFloat(0, 1), RandFloat(0, 1),RandFloat(0, 1)));
+//		candidates.add(new Flight("snarfsnarf", "pass",RandFloat(1, 100), RandFloat(0, 1), 4.0, RandFloat(0, 1),RandFloat(0, 1), RandFloat(0, 1),RandFloat(0, 1)));
+                ArrayList<Flight> candidates2 = new ArrayList<>(candidates);
+                FlightPlan fp2 = fp.cloneFlightPlan();
+                
 		FlightPlanCoordinator fpc = new FlightPlanCoordinator(fp, candidates);
 		System.out.println("INITIAL");
 		for (Flight f : fp) {
@@ -269,8 +271,63 @@ public class Testing {
 				" Expected value: " + fpi.getExpectedValue());
 		System.out.println("BRUTE FORCE");
 		candidates.addAll(flights);
-		FlightPlan fp1 = FlightPlanCoordinator.ordSplit(ParameterCore.BRUTE_BOUND-1, candidates);
-		fpc = new FlightPlanCoordinator(fp1, new ArrayList<Flight> ());
+		//FlightPlan fp1 = FlightPlanCoordinator.ordSplit(ParameterCore.BRUTE_BOUND-1, candidates);
+		//fpc = new FlightPlanCoordinator(fp1, new ArrayList<Flight> ());
+                fpc = new FlightPlanCoordinator(fp2, candidates2);
+		FlightPlan fpb = fpc.runBruteForce();
+
+		for (Flight f : fpb) {
+			System.out.println(f);
+		}
+		System.out.println("Is admissible? " + fpb.isAdmissible() + 
+				" Expected value: " + fpb.getExpectedValue());
+	}
+        
+        static void runTestZero() {
+		ArrayList<Flight> flights = new ArrayList<Flight>();
+		flights.add(new Flight("eeny", "eeny", 7.431093, 0.900335, 4.0, 0.637925, 0.148920, 0.382864, 0.092765));
+		flights.add(new Flight("meany", "meany", 24.891589, 0.910925, 4.0, 0.593279, 0.511503, 0.284545,  0.339193));
+		flights.add(new Flight("miny", "miny", 32.163439, 0.727152, 4.0, 0.271691, 0.895381, 0.312952, 0.962457));
+		flights.add(new Flight("moe", "moe", 79.763438, 0.179283, 4.0, 0.213952, 0.982373, 0.253538, 0.635217));
+		flights.add(new Flight("alan", "alan", 71.329610, 0.930679, 4.0, 0.117261, 0.181536, 0.901166, 0.062637));
+
+		FlightPlan fp = new FlightPlan(flights);
+		ArrayList<Flight> candidates = new ArrayList<Flight>();
+		candidates.add(new Flight("modern", "pass1", 99.866374, 0.015579, 4.0, 4.0, 0.098856, 0.757253, 0.962645));
+		candidates.add(new Flight("major", "pass2", 17.104479, 0.298730, 4.0, 0.386326, 0.577184, 0.261103, 0.611658));
+		candidates.add(new Flight("general", "pass3", 99.065588, 0.521137, 4.0, 0.671081, 0.284618, 0.665309, 0.041733));
+		candidates.add(new Flight("steve", "pass4", 77.528814, 0.236376, 4.0, 0.458126, 0.621779, 0.808786, 0.652340));
+		candidates.add(new Flight("quin", "pass5", 67.934971, 0.117932, 4.0, 0.959371, 0.878957, 0.888045, 0.411988));
+                ArrayList<Flight> candidates2 = new ArrayList<>(candidates);
+
+		FlightPlanCoordinator fpc = new FlightPlanCoordinator(fp, candidates);
+		System.out.println("INITIAL");
+		for (Flight f : fp) {
+			System.out.println(f);
+		}
+		System.out.println("Is admissible? " + fp.isAdmissible() + 
+				" Expected value: " + fp.getExpectedValue());
+		
+		fp.makeAdmissible();
+		System.out.println("MADE ADMISSIBLE");
+		for (Flight f : fp) {
+			System.out.println(f);
+		}
+		System.out.println("Is admissible? " + fp.isAdmissible() + 
+				" Expected value: " + fp.getExpectedValue());
+		
+		System.out.println("IMPROVED");
+		FlightPlan fpi = fpc.runSLS();
+		
+		for (Flight f : fpi) {
+			System.out.println(f);
+		}
+		System.out.println("Is admissible? " + fpi.isAdmissible() + 
+				" Expected value: " + fpi.getExpectedValue());
+		System.out.println("BRUTE FORCE");
+		//candidates.addAll(flights);
+		//FlightPlan fp1 = FlightPlanCoordinator.ordSplit(ParameterCore.BRUTE_BOUND-1, candidates);
+		fpc = new FlightPlanCoordinator(fp, candidates2);
 		FlightPlan fpb = fpc.runBruteForce();
 
 		for (Flight f : fpb) {

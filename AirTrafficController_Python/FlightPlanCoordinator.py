@@ -116,8 +116,8 @@ class FlightPlanCoordinator:                                                    
                         improvement = max(improvement, candScore - incumbentScore)          # improvement = Math.max(improvement, candScore - incumbentScore);
                         incumbent = fpCandidate                                             # incumbent = fpCandidate;
                         incumbentScore = candScore                                          # incumbentScore = candScore;
-                        self.candidates.remove(swappedIn)                                   # this.candidates.remove(swappedIn);
-                        self.candidates.append(swappedOut)                                  # this.candidates.add(swappedOut);
+                        candid.remove(swappedIn)                                   # this.candidates.remove(swappedIn);
+                        candid.append(swappedOut)                                  # this.candidates.add(swappedOut);
 
                     else:                                                                   # else {
                         swapInIndex = random.randrange((incumbent.size()) - 1)         # Integer swapInIndex = this.random.nextInt(incumbent.size() - 1);
@@ -181,7 +181,7 @@ class FlightPlanCoordinator:                                                    
             bestPlan = FlightPlan.FlightPlan(allFlights[0:minFlights])                                                             # FlightPlan bestPlan = new FlightPlan(allFlights.subList(0, minFlights));
 
             bestPlanScore = bestPlan.getExpectedValue()                                                                 # Double bestPlanScore = bestPlan.getExpectedValue();
-
+            changed = True
             while fc.has_next():                                                                                        # for (FlightPlan fp : fc) {
                 fp = FlightPlan.FlightPlan(fc.get_next())
                 expVal = fp.getExpectedValue()                                                                          # Double expVal = fp.getExpectedValue();
@@ -189,11 +189,11 @@ class FlightPlanCoordinator:                                                    
                 if bestPlanScore < expVal:                                                                              # if (bestPlanScore.compareTo(expVal) < 0) {
                     bestPlan = fp                                                                                       # bestPlan = fp;
                     bestPlanScore = expVal                                                                              # bestPlanScore = expVal;
-
-            if ParameterCore.ParameterCore().DEBUG > 0:                                                                 # if (ParameterCore.DEBUG > 0) {
-                print(bestPlan.get(0).getPlacementToken() + " " + bestPlan.getExpectedValue())                          # System.out.println(bestPlan.get(0).getPlacementToken() + " " + bestPlan.getExpectedValue());
-                print(bestPlan)                                                                                         # System.out.println(bestPlan);
-
+                    changed = True
+                if ParameterCore.ParameterCore().DEBUG > 0 and changed == True:                                                                 # if (ParameterCore.DEBUG > 0) {
+                    print(bestPlan.get(0).getPlacementToken(), " " , bestPlan.getExpectedValue())                          # System.out.println(bestPlan.get(0).getPlacementToken() + " " + bestPlan.getExpectedValue());
+                    print(bestPlan.toString())                                                                                         # System.out.println(bestPlan);
+                    changed = False
             return bestPlan                                                                                             # return bestPlan;
 
 def ordSplit(wSize, candidates):                                            # public static FlightPlan ordSplit(Integer wSize, List<Flight> candidates) {

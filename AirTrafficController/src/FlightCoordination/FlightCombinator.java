@@ -15,6 +15,7 @@ public class FlightCombinator implements Iterable<FlightPlan>{
     Generator<Flight> gen2;
 	
 	public class flightComboIterator implements Iterator<FlightPlan> {
+            @Override
 	    public boolean hasNext() {
 	    	if (it2 != null && it2.hasNext()){
 	    		return it2.hasNext();
@@ -24,6 +25,7 @@ public class FlightCombinator implements Iterable<FlightPlan>{
 	    	}
 	    	return false;
 	    }
+            @Override
 	    public FlightPlan next() {
 	    	if( it2 != null && it2.hasNext() ){
 		    	ICombinatoricsVector<FlightCoordination.Flight> temp = it2.next();
@@ -31,10 +33,7 @@ public class FlightCombinator implements Iterable<FlightPlan>{
 		    	return new FlightPlan(flist);
 	    	}
 	    	else if ( it1.hasNext() ){
-		    	ICombinatoricsVector<FlightCoordination.Flight> temp = it1.next();
-		    	List<Flight> flist = temp.getVector();
-	    		ICombinatoricsVector<Flight> comboVec = Factory.createVector(flist);
-	    		gen2 = Factory.createPermutationGenerator(comboVec);
+	    		gen2 = Factory.createPermutationGenerator(it1.next());
 	    		it2  = gen2.iterator();
 		    	ICombinatoricsVector<FlightCoordination.Flight> temp2 = it2.next();
 		    	List<Flight> flist2 = temp2.getVector();
@@ -42,6 +41,7 @@ public class FlightCombinator implements Iterable<FlightPlan>{
 	    	}
 	    	return null;
 	    }
+            @Override
 	    public void remove() {
 	    	if (it2 != null && it2.hasNext()){
 	    		it2.remove();
@@ -55,6 +55,7 @@ public class FlightCombinator implements Iterable<FlightPlan>{
 		ICombinatoricsVector<Flight> initialVector = Factory.createVector(lf);
 		this.gen1 = Factory.createSimpleCombinationGenerator(initialVector, r);
 	}
+        @Override
 	public Iterator<FlightPlan> iterator() {
 		this.it1 = this.gen1.iterator(); 
 		return new flightComboIterator();

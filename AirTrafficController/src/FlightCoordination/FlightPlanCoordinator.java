@@ -106,8 +106,10 @@ public class FlightPlanCoordinator {
                         improvement = Math.max(improvement, candScore - incumbentScore);
                         incumbent = fpCandidate;
                         incumbentScore = candScore;
-                        this.candidates.remove(swappedIn);
-                        this.candidates.add(swappedOut);
+                        //this.candidates.remove(swappedIn);
+                        //this.candidates.add(swappedOut);
+                        candid.remove(swappedIn);
+                        candid.add(swappedOut);
                     }
                 }
                 // This block is used when a full ordering (all elements in waterfall are considered).
@@ -178,7 +180,8 @@ public class FlightPlanCoordinator {
         FlightCombinator fc = new FlightCombinator(allFlights, minFlights);
         FlightPlan bestPlan = new FlightPlan(allFlights.subList(0, minFlights));
         Double bestPlanScore = bestPlan.getExpectedValue();
-
+        boolean changed = true;
+        
         for (FlightPlan fp : fc) {
             Double expVal = fp.getExpectedValue();
             /*
@@ -187,12 +190,16 @@ public class FlightPlanCoordinator {
             if (bestPlanScore.compareTo(expVal) < 0) {
                 bestPlan = fp;
                 bestPlanScore = expVal;
+                changed = true;
+            }
+            
+            if (ParameterCore.DEBUG > 0 && changed) {
+                System.out.println(bestPlan.get(0).getPlacementToken() + " " + bestPlan.getExpectedValue());
+                System.out.println(bestPlan);
+                changed = false;
             }
         }
-        if (ParameterCore.DEBUG > 0) {
-            System.out.println(bestPlan.get(0).getPlacementToken() + " " + bestPlan.getExpectedValue());
-            System.out.println(bestPlan);
-        }
+        
         return bestPlan;
     }
 

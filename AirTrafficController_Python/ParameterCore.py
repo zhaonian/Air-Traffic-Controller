@@ -25,7 +25,7 @@ class ParameterCore:                                                            
     MIN_FLIGHTS_TO_TRY_IMPROVE = 1                                                             # public static final Integer MIN_FLIGHTS_TO_TRY_IMPROVE 		 	  = 1;
     #CORES                      = Runtime.getRuntime().availableProcessors();                  # public static final Integer CORES							 	  = Runtime.getRuntime().availableProcessors();
     SIG_FIGS                   = 8                                                             # public static final Integer SIG_FIGS                   		 	  = 8;
-    DEBUG                      = 0                                                             # public static final Integer DEBUG                      		 	  = 0;
+    DEBUG                      = 1                                                             # public static final Integer DEBUG                      		 	  = 0;
     RUN_PARALLEL               = True                                                          # public static final Boolean RUN_PARALLEL			  			  = true;
     SKIP_NODAT                 = True                                                          # public static final Boolean SKIP_NODAT				   		  	  = true;
     #csv                        = CSV.separator(',').noQuote().create()                        # public static final CSV csv                            		 	  = CSV.separator(',').noQuote().create();

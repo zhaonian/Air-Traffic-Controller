@@ -86,7 +86,7 @@ public class Flight implements Comparable<Flight>{
 		return (int) Math.signum(cmp);
 	}
 	public String toString(){
-		return String.format("%-24s , %-8s , %8f , %8f ; %8f , %8f , %8f %8f , %8f\n",
+		return String.format("%-24s , %-8s , %8f , %8f ; %8f , %8f , %8f , %8f , %8f\n",
 				this.pTok,this.fid,this.reward,this.probability,this.timeMax,
 				this.timeAverageFailure,this.timeAverageSuccess,
 				this.timeStdDevFailure,this.timeStdDevSuccess);

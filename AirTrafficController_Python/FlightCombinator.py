@@ -18,6 +18,9 @@ class FlightCombinator:                                         # public class F
             self.perm.extend(list(itertools.permutations(x)))   # and permutations and put them in a list.
 
 
+
+
+
     def has_next(self):
         """
         Test if a certain combination still has permutation.
@@ -39,9 +42,12 @@ class FlightCombinator:                                         # public class F
         return new_i
 
 
-#def test_FC():
-#    fc = FlightCombinator([1,2,3,5,6,7], 4)
+# def test_FC():
+#    fc = FlightCombinator([2, 3,1,1, 1], 3)
+#
 #    while fc.has_next():
 #        print(fc.get_next())
 #
-#test_FC()
+# test_FC()
+#
+#

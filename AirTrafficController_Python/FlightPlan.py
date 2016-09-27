@@ -21,10 +21,10 @@ class FlightPlan(object):
         else:
             print(type(plan))
             raise TypeError("plan wrong!")
-                                                                # public FlightPlan(List<Flight> plan){
-                                                                # this.plan = Collections.synchronizedList(plan);
-                                                                # public FlightPlan(FlightPlan fp){
-                                                                # this.plan = fp.getAsList();
+            # public FlightPlan(List<Flight> plan){
+            # this.plan = Collections.synchronizedList(plan);
+            # public FlightPlan(FlightPlan fp){
+            # this.plan = fp.getAsList();
 
     def getExpectedValueDeltaFunc(self):                        # public Double getExpectedValueDeltaFunc(){
         reward          = self.plan[0].getReward()              # Double reward	        = this.plan.get(0).getReward();
@@ -107,16 +107,16 @@ class FlightPlan(object):
 
     def getExpectedValue(self):
         # try:
-            if len(self.plan) == 0:                                                         # if (this.plan.isEmpty()){
-                return 0.0                                                                  # return 0.0;
+        if len(self.plan) == 0:                                                         # if (this.plan.isEmpty()){
+            return 0.0                                                                  # return 0.0;
 
-            if ParameterCore.ParameterCore().UTILITY == UtilityFunctionEnum.UtilityFunctionEnum().CDF:            # if (ParameterCore.UTILITY == UtilityFunctionEnum.CDF){
-                return self.getExpectedValueCDF()                                           # return getExpectedValueCDF();
+        if ParameterCore.ParameterCore().UTILITY == UtilityFunctionEnum.UtilityFunctionEnum().CDF:            # if (ParameterCore.UTILITY == UtilityFunctionEnum.CDF){
+            return self.getExpectedValueCDF()                                           # return getExpectedValueCDF();
 
-            if ParameterCore.ParameterCore().UTILITY == UtilityFunctionEnum.UtilityFunctionEnum().DELTA:          # if (ParameterCore.UTILITY == UtilityFunctionEnum.DELTA){
-                return self.getExpectedValueDeltaFunc()                                     # return getExpectedValueDeltaFunc();
-        # except:
-        #     raise AssertionError()                                                          # throw new AssertionError();
+        if ParameterCore.ParameterCore().UTILITY == UtilityFunctionEnum.UtilityFunctionEnum().DELTA:          # if (ParameterCore.UTILITY == UtilityFunctionEnum.DELTA){
+            return self.getExpectedValueDeltaFunc()                                     # return getExpectedValueDeltaFunc();
+            # except:
+            #     raise AssertionError()                                                          # throw new AssertionError();
 
 
     def isAdmissible(self):                                         # public Boolean isAdmissible(){
@@ -148,7 +148,7 @@ class FlightPlan(object):
 
     def size(self):
         return len(self.plan)
-    
+
     def getAsList(self):
         #print(self.plan)
         return self.plan
@@ -174,3 +174,20 @@ class FlightPlan(object):
 
     def remove(self, obj):
         self.plan.remove(obj)
+
+
+# def test_flightplan():
+#     fp = FlightPlan([Flight.Flight("general" , "pass" , 99.065588 , 0.521137 , 4.0 , 0.671081 , 0.284618 , 0.665309 , 0.041733),
+#                      Flight.Flight("general", "pass", 99.065588, 0.521137, 4.0, 0.671081, 0.284618, 0.665309, 0.041733),
+#                      Flight.Flight("general", "pass", 99.065588, 0.521137, 4.0, 0.671081, 0.284618, 0.665309, 0.041733),
+#                      #Flight.Flight("moe" , "moe" , 79.763438 , 0.179283 , 4.0 , 0.213952 , 0.982373 , 0.253538 , 0.635217),
+#                      #Flight.Flight("steve" , "pass" , 77.528814 , 0.236376 , 4.0 , 0.458126 , 0.621779 , 0.808786 , 0.65234),
+#                      Flight.Flight("alan" , "alan" , 71.32961 , 0.930679 , 4.0 , 0.117261 , 0.181536 , 0.901166 , 0.062637),
+#                      Flight.Flight("meany", "meany", 24.891589, 0.910925, 4.000000, 0.593279, 0.511503, 0.284545, 0.339193)])
+#     #Flight.Flight("miny" , "miny" , 32.163439 , 0.727152 , 4.0 , 0.271691 , 0.895381 , 0.312952 , 0.962457)])
+#     return fp.getExpectedValueCDF()
+#
+#
+#
+# print(test_flightplan())
+
