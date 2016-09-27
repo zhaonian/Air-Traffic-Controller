@@ -3,10 +3,11 @@ This module contains all the math methods for calculating the best FlightPlan (a
 """
 
 import math
-import scipy.stats
+#import scipy.stats
 import Flight
 import ParameterCore
 import UtilityFunctionEnum
+from CDF import lognormcdf
 
 
 class FlightPlan(object):
@@ -70,7 +71,8 @@ class FlightPlan(object):
         logNormVar   = math.log(math.pow(costFlipSucc_std, 2)/(math.pow(costFlipSucc, 2)) + 1.0)                          # Double logNormVar		  = Math.log((Math.pow(costFlipSucc_std,2)/Math.pow(costFlipSucc,2)) + 1.0);
         logNormMean  = math.log(costFlipSucc) - (logNormVar / 2.0)                                                       # Double logNormMean		  = Math.log(costFlipSucc)-(logNormVar/2.0);
         #logNormPPF   = scipy.stats.lognorm(0.001, math.sqrt(logNormVar), logNormMean)
-        logNormalCDF = scipy.stats.lognorm.cdf(tMax, math.sqrt(logNormVar), logNormMean)
+        #logNormalCDF = scipy.stats.lognorm.cdf(tMax, math.sqrt(logNormVar), logNormMean)
+        logNormalCDF = lognormcdf(tMax, math.sqrt(logNormVar), logNormMean)
 
         fullSum             = (reward*probSucc*logNormalCDF)     # Double fullSum		      = (reward*probSucc*logNormalCDF);
         probFailChain       = 1.0 - probSucc                     # Double probFailChain      = ( 1.0 - probSucc );
@@ -91,7 +93,8 @@ class FlightPlan(object):
             logNormVar   = math.log(((normalCDFFailChain + math.pow(costFlipSucc_std, 2))/math.pow(costFailChain + costFlipSucc, 2)) + 1.0)         # logNormVar		      = Math.log(((normalCDFFailChain+Math.pow(costFlipSucc_std,2))/Math.pow(costFailChain+costFlipSucc,2)) + 1.0);
             logNormMean  = math.log(costFailChain + costFlipSucc) - (logNormVar/2.0)                                                                # logNormMean		      = Math.log(costFailChain+costFlipSucc)-(logNormVar/2.0);
             #logNormPPF   = scipy.stats.lognorm(0.001, math.sqrt(logNormVar), logNormMean)
-            logNormalCDF = scipy.stats.lognorm.cdf(tMax, math.sqrt(logNormVar), logNormMean)                                              # logNormalCDF            = jdistlib.LogNormal.cumulative(tMax, logNormMean, Math.sqrt(logNormVar), true, false);
+            #logNormalCDF = scipy.stats.lognorm.cdf(tMax, math.sqrt(logNormVar), logNormMean)                                              # logNormalCDF            = jdistlib.LogNormal.cumulative(tMax, logNormMean, Math.sqrt(logNormVar), true, false);
+            logNormalCDF = lognormcdf(tMax, math.sqrt(logNormVar), logNormMean)
 
             self.probs          += self.plan[i].getFid() + " S ", logNormalCDF, ","                                   # this.probs           += this.plan.get(i).getFid() + " S " + logNormalCDF + "," ;
 

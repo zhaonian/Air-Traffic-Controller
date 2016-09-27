@@ -286,11 +286,11 @@ class Testing:                                                                  
         fp = FlightPlan.FlightPlan(flights)
 
         candidates = []
-        candidates.append(Flight.Flight("modern", "pass", 99.866374 , 0.015579 , 4.000000 , 0.098856 , 0.757253, 0.962645 , 0.495050))
-        candidates.append(Flight.Flight("major", "pass", 17.104479 , 0.298730 , 4.000000 , 0.386326 , 0.577184, 0.261103 , 0.611658))
-        candidates.append(Flight.Flight("general", "pass", 99.065588 , 0.521137 , 4.000000 , 0.671081 , 0.284618, 0.665309 , 0.041733))
-        candidates.append(Flight.Flight("steve", "pass", 77.528814 , 0.236376 , 4.000000 , 0.458126 , 0.621779, 0.808786 , 0.652340))
-        candidates.append(Flight.Flight("quin", "pass", 67.934971 , 0.117932 , 4.000000 , 0.959371 , 0.878957, 0.888045 , 0.411988))
+        candidates.append(Flight.Flight("modern", "pass1", 99.866374 , 0.015579 , 4.000000 , 0.098856 , 0.757253, 0.962645 , 0.495050))
+        candidates.append(Flight.Flight("major", "pass2", 17.104479 , 0.298730 , 4.000000 , 0.386326 , 0.577184, 0.261103 , 0.611658))
+        candidates.append(Flight.Flight("general", "pass3", 99.065588 , 0.521137 , 4.000000 , 0.671081 , 0.284618, 0.665309 , 0.041733))
+        candidates.append(Flight.Flight("steve", "pass4", 77.528814 , 0.236376 , 4.000000 , 0.458126 , 0.621779, 0.808786 , 0.652340))
+        candidates.append(Flight.Flight("quin", "pass5", 67.934971 , 0.117932 , 4.000000 , 0.959371 , 0.878957, 0.888045 , 0.411988))
 
         fpc = FlightPlanCoordinator.FlightPlanCoordinator(fp, candidates)
 
