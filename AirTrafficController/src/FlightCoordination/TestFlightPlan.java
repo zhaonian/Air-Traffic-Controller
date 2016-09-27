@@ -1,4 +1,6 @@
 
+package FlightCoordination;
+
 import FlightCoordination.Flight;
 import FlightCoordination.FlightPlan;
 import java.util.ArrayList;

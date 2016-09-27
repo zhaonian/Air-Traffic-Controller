@@ -25,8 +25,8 @@ public final class Main {
 //			e.printStackTrace();
 //		}
 		
-                //Testing.runTestZero();
-		Testing.runTestOne();
+                Testing.runTestZero();
+		//Testing.runTestOne();
 		//Testing.runTestTwo();
 		//Testing.runTestThree();
 		//Testing.runTestFour();
