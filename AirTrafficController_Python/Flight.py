@@ -3,9 +3,9 @@ This module contains all the info of what a Flight object (an ad) contains
 """
 
 import numpy
-import scipy.stats
 import ParameterCore
 import FlightPlanBootstrapOrderEnum
+from CDF import lognormcdf
 
 class Flight(object):
     """
@@ -60,7 +60,8 @@ class Flight(object):
         self.noDat = False
 
     def isolatedSuccessCDF(self):                                                                               # public Double isolatedSuccessCDF(){
-        normalCDF = scipy.stats.norm.cdf(self.timeMax, self.timeAverageSuccess, self.timeStdDevSuccess)         # Double normalCDF = jdistlib.Normal.cumulative(timeMax, timeAverageSuccess, this.timeStdDevSuccess);
+        #normalCDF = scipy.stats.norm.cdf(self.timeMax, self.timeAverageSuccess, self.timeStdDevSuccess)         # Double normalCDF = jdistlib.Normal.cumulative(timeMax, timeAverageSuccess, this.timeStdDevSuccess);
+        normalCDF = lognormcdf(self.timeMax, self.timeAverageSuccess, self.timeStdDevSuccess)
         return self.reward * self.probability * normalCDF                                                       # return (reward*probability*normalCDF);
 
 
