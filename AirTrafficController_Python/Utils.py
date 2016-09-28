@@ -4,6 +4,7 @@ import decimal
 from ParameterCore import ParameterCore
 from Flight import *
 import numpy
+from FlightPlan import FlightPlan
 
 class Utils:                              # public class Utils {
     def __init__(self):
@@ -72,7 +73,7 @@ class Utils:                              # public class Utils {
                 pHash.update({f.getPlacementToken: Placement(f.getPlacementToken(), nfp)})
                 nfp.addFlight(f)
 
-    def optimizePlacement(self, waterfallSizeLimit, control, allPlacements):
+    def optimizePlacements(self, waterfallSizeLimit, control, allPlacements):
         # clearFile(ParameterCore.LOG_LOC)
         logger = PrintWriter(FileWriter(ParameterCore.ParameterCore().LOG_LOC))
         semaphore = Semaphore(ParameterCore.ParameterCore().CORES)
