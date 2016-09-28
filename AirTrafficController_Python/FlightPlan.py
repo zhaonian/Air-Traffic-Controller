@@ -178,6 +178,11 @@ class FlightPlan(object):
     def remove(self, obj):
         self.plan.remove(obj)
 
+    def addFlight(self, f):
+        self.plan.append(f)
+
+
+
 
 # def test_flightplan():
 #     fp = FlightPlan([Flight.Flight("general" , "pass" , 99.065588 , 0.521137 , 4.0 , 0.671081 , 0.284618 , 0.665309 , 0.041733),
