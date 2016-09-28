@@ -7,101 +7,90 @@ import ParameterCore
 import Utils
 
 class CLI:                                                          # public class CLI
-    def __init__(self):
+    def __init__(self, *args):
         self.memo = None                                            # static HashMap<HashSet<String>, FlightPlan> memo
-
-    def runCLI(self, args)  :                                       # public static void runCLI(String[] args)
-        waterfallSizeLimit  = None                                  # Integer waterfallSizeLimit	 	= null;
-        control             = None                                  # String control           	  		= null;
-        inFileName          = None                                  # String inFileName        	  		= null;
-        outFileName         = None                                  # String outFileName      	  		= null;
-        allFlights          = None                                  # List<Flight> allFlights 	  		= null;
-        allPlacements       = None                                  # List<Placement> allPlacements     = null;
-
-        self.memo = dict()
-
         if len(args) < 4:                                           # if (args.length < 4)
             print(ParameterCore.ParameterCore().USAGE)              # System.out.println(ParameterCore.USAGE);
             print("Argument Error: There must be 4 arguments.")     # System.err.println("Argument Error: There must be 4 arguments.");
             exit()                                                  # System.exit(1);
-
         else:
             try:
-                control            = args[0]                        # control        		= args[0];
-                waterfallSizeLimit = int(args[1])                   # waterfallSizeLimit    = Integer.valueOf(args[1]);
-                inFileName         = args[2]                        # inFileName     		= args[2];
-                outFileName        = args[3]                        # outFileName    		= args[3];
+                self.control            = args[0]                        # control        		= args[0];
+                self.waterfallSizeLimit = int(args[1])                   # waterfallSizeLimit   = Integer.valueOf(args[1]);
+                self.inFileName         = args[2]                        # inFileName     		= args[2];
+                self.outFileName        = args[3]                        # outFileName    		= args[3];
+                self.allFlights         = None                           # List<Flight> allFlights 	  		= null;
+                self.allPlacements      = None                           # List<Placement> allPlacements    = null;
 
-            except Exception as e:
-                print("\nArgument Error: " + str(e))                # System.err.println("\nArgument Error: " + e.getMessage() + " "
-                                                                    #  + e.getLocalizedMessage() + " " + e.getCause());
-                                                                    ## e.printStackTrace();
-                exit()                                              # System.exit(1);
+            except Exception as e:                                       # System.err.println("\nArgument Error: " + e.getMessage() + " "
+                print("\nArgument Error: " + str(e))                     # + e.getLocalizedMessage() + " " + e.getCause());
+                exit()
 
             try:
-                allFlights = Utils.Utils().readFlightsCSV()
-                # allFlights = Utils.readFlightsCSV(ParamaterCore.csv, inFileName)  # allFlights = Utils.readFlightsCSV(ParameterCore.csv, inFileName);
+                self.allFlights = Utils.Utils().readFlightsCSV(ParameterCore.ParameterCore().csv, self.inFileName)      # allFlights = Utils.readFlightsCSV(ParameterCore.csv, inFileName);
             except Exception as e:
-                print("Error reading from file: " + inFileName)     # System.out.println("Error reading from file: " + inFileName);
-                print("\nInput File Error: " + str(e))              # System.err.println("\nInput File Error: " + e.getMessage() + " "
-                                                                    # + e.getLocalizedMessage() + " " + e.getCause());
-                                                                    # e.printStackTrace();"""
+                print("Error reading from file: " + self.inFileName)                                                    # System.out.println("Error reading from file: " + inFileName);
+                print("\nInput File Error: " + str(e))                                                                  # System.err.println("\nInput File Error: " + e.getMessage() + " "
+                                                                                                                        # + e.getLocalizedMessage() + " " + e.getCause());
+                                                                                                                        # e.printStackTrace();"""
+    def runCLI(self):
+        ### Preprocess input data START ###
+        # Preprocess each flight plan. This fills in missing data items.
+        Utils.Utils().preProcessFlights(self.allFlights)
+        # Partition flights into Placements.
+        self.allPlacements = Utils.Utils().partitionToPlacements(self.allFlights)
+        # Lexicographic sort Placements.
+        self.allPlacements.sort()
+        ### Preprocess input data END ###
 
-            # Preprocess input data START #
-                # Preprocess each flight plan. This fills in missing data items.
-                Utils.preProcessFlights(allFlights)
-                # Partition flights into Placements.
-                allPlacements = Utils.partitionToPlacements(allFlights)
-                # Lexicographic sort Placements.
-                allPlacements.sort()                                #Collections.sort(allPlacements)
-            ######## Preprocess input data END ########
+        # Run Optimization Start
+        Utils.Utils().optimizePlacements(self.waterfallSizeLimit, self.control, self.allPlacements)                     # Utils.optimizePlacements(waterfallSizeLimit, control, allPlacements);
+		# Run Optimization End #
 
-            ######## Run Optimization Start ########
-            Utils.optimizePlacements(waterfallSizeLimit, control, allPlacements)
-            ######## Run Optimization End ########
+        ### Output data after processing START ###
+        writeList = list()                                                                                              # List<Flight> writeList = new ArrayList<Flight> ();
+        for p in self.allPlacements:                                                                                    # for (Placement p: allPlacements){
+            writeList.append(p.getFp().getAslist())                                                                     # writeList.addAll(p.getFp().getAsList());
+            print(p.pid, " :::: ", p.fp.getExpectedValue())                                                             # System.out.println(p.pid + " :::: " + p.fp.getExpectedValue() );
 
-            ######## Output data after processing START ########
-            writeList = []                                          # List<Flight> writeList = new ArrayList<Flight> ();
-            for p in allPlacements:                                 # for (Placement p : allPlacements)
-                for q in p.getFp().getAsList():
-                    writeList.append(q)             # writeList.addAll(p.getFp().getAsList());
-                print(p.pid + " :::: " + p.fp.getExpectedValue())   # System.out.println(p.pid + " :::: " + p.fp.getExpectedValue() );
+        Utils.Utils().writeFlightPlanCSV((ParameterCore.ParameterCore().csv, self.outFileName, writeList))              # Utils.writeFlightPlanCSV(ParameterCore.csv, outFileName, writeList);
+        print(("Generated file [", self.outFileName, "]", " From data ", "[", self.inFileName, "]"))                    # System.out.println("Generated file ["+outFileName+"]" + " From data " + "[" + inFileName + "]");
 
-            #Utils.writeFlightPlanCSV(ParameterCore.csv, outFileName, writeList)     ## Utils.writeFlightPlanCSV(ParameterCore.csv, outFileName, writeList);
-            print("Generated file ["+outFileName+"]"+ "From data" + "[" + inFileName + "]") ## System.out.println("Generated file [" + outFileName + "]" + " From data " + "[" + inFileName + "]");
-            ######## Output data after processing END ########
 
-    def getBinomial(self, n, p):                             # public static int getBinomial(int n, double p)
+
+
+    def getBinomial(self, n, p):                                    # public static int getBinomial(int n, double p)
         x = 0                                                       # int x = 0;
         for i in range(n):                                          # for(int i = 0; i < n; i++)
             if random.random() < p:                                 # if( Math.random( ) < p )
                 x += 1                                              # x++;
         return x
 
-    current_time = int(time.time()*1000) + random.random()  ## static jdistlib.rng.MersenneTwister twister = new jdistlib.rng.MersenneTwister( System.currentTimeMillis() + (long) Math.random( ) );
-    random.seed(current_time)
+    # current_time = int(time.time()*1000) + random.random()  ## static jdistlib.rng.MersenneTwister twister = new jdistlib.rng.MersenneTwister( System.currentTimeMillis() + (long) Math.random( ) );
+    # random.seed(current_time)
+    ################################## Need to be fixed here!
 
     def simRun(self, flight):
-        reward = flight.getReward()                                 # Double reward           = flight.getReward();
-        probSucc = flight.getProbability()                          # Double probSucc         = flight.getProbability();
-        costFlipFail = flight.getTimeAverageFailure()               # Double costFlipFail     = flight.getTimeAverageFailure();
-        costFlipSucc = flight.getTimeAverageSuccess()               # Double costFlipSucc     = flight.getTimeAverageSuccess();
-        costFlipFail_std = flight.getTimeStdDevFailure()            # Double costFlipFail_std = flight.getTimeStdDevFailure();
-        costFlipSucc_std = flight.getTimeStdDevSuccess()            # Double costFlipSucc_std = flight.getTimeStdDevSuccess();
-        logNormVar_S = math.log((math.pow(costFlipSucc_std, 2)/math.pow(costFlipSucc, 2)) + 1.0)    # Double logNormVar_S     = Math.log( (Math.pow(costFlipSucc_std,2)/Math.pow(costFlipSucc,2)) + 1.0);
-        logNormMean_S = math.log(costFlipSucc) - (logNormVar_S/2.0)                                 # Double logNormMean_S    = Math.log(costFlipSucc) - (logNormVar_S/2.0);
-        successDelay = numpy.random.lognormal(logNormMean_S, math.sqrt( logNormVar_S))              # Double successDelay     = jdistlib.LogNormal.random( logNormMean_S, Math.sqrt( logNormVar_S ), twister );
-        logNormVar_F = math.log((math.pow(costFlipFail_std, 2) / math.pow(costFlipFail, 2)) + 1.0)  # Double logNormVar_F     = Math.log( (Math.pow(costFlipFail_std,2) / Math.pow(costFlipFail,2)) + 1.0);
-        logNormMean_F = math.log(costFlipFail)-(logNormVar_F/2.0)                                   # Double logNormMean_F    = Math.log( costFlipFail )-( logNormVar_F/2.0 );
-        failureDelay = numpy.random.lognormal(logNormMean_F, math.sqrt(logNormVar_F))               # Double failureDelay     = jdistlib.LogNormal.random( logNormMean_F, Math.sqrt( logNormVar_F ), twister );
+        self.reward = flight.getReward()                                 # Double reward           = flight.getReward();
+        self.probSucc = flight.getProbability()                          # Double probSucc         = flight.getProbability();
+        self.costFlipFail = flight.getTimeAverageFailure()               # Double costFlipFail     = flight.getTimeAverageFailure();
+        self.costFlipSucc = flight.getTimeAverageSuccess()               # Double costFlipSucc     = flight.getTimeAverageSuccess();
+        self.costFlipFail_std = flight.getTimeStdDevFailure()            # Double costFlipFail_std = flight.getTimeStdDevFailure();
+        self.costFlipSucc_std = flight.getTimeStdDevSuccess()            # Double costFlipSucc_std = flight.getTimeStdDevSuccess();
+        self.logNormVar_S = math.log((math.pow(self.costFlipSucc_std, 2)/math.pow(self.costFlipSucc, 2)) + 1.0)         # Double logNormVar_S     = Math.log( (Math.pow(costFlipSucc_std,2)/Math.pow(costFlipSucc,2)) + 1.0);
+        self.logNormMean_S = math.log(self.costFlipSucc) - (self.logNormVar_S/2.0)                                      # Double logNormMean_S    = Math.log(costFlipSucc) - (logNormVar_S/2.0);
+        self.successDelay = numpy.random.lognormal(self.logNormMean_S, math.sqrt(self.logNormVar_S))                    # Double successDelay     = jdistlib.LogNormal.random( logNormMean_S, Math.sqrt( logNormVar_S ), twister );
+        self.logNormVar_F = math.log((math.pow(self.costFlipFail_std, 2) / math.pow(self.costFlipFail, 2)) + 1.0)       # Double logNormVar_F     = Math.log( (Math.pow(costFlipFail_std,2) / Math.pow(costFlipFail,2)) + 1.0);
+        self.logNormMean_F = math.log(self.costFlipFail)-(self.logNormVar_F/2.0)                                        # Double logNormMean_F    = Math.log( costFlipFail )-( logNormVar_F/2.0 );
+        self.failureDelay = numpy.random.lognormal(self.logNormMean_F, math.sqrt(self.logNormVar_F))                    # Double failureDelay     = jdistlib.LogNormal.random( logNormMean_F, Math.sqrt( logNormVar_F ), twister );
 
-        isSuccess = self.getBinomial(1, probSucc) > 0                # boolean isSuccess = getBinomial(1, probSucc) > 0;
+        self.isSuccess = self.getBinomial(1, self.probSucc) > 0                                                         # boolean isSuccess = getBinomial(1, probSucc) > 0;
 
-        if isSuccess:
-            return [reward, successDelay]                            # return new Double[]{reward, successDelay};
+        if self.isSuccess:
+            return [self.reward, self.successDelay]
 
         else:
-            return [0.0, failureDelay]                               # return new Double[] { 0.0, failureDelay };
+            return [0.0, self.failureDelay]
 
     def calculateAverage(self, marks):
         _sum = 0.0
@@ -111,15 +100,17 @@ class CLI:                                                          # public cla
             return float(_sum)/len(marks)
         return _sum
 
-    def calculateAverage2(self, marks):  # private static double calculateAverage2(ArrayList<Integer> marks)
-        _sum = 0.0                                                       # Double sum = 0.0;
-        if marks != []:                                         # if(!marks.isEmpty())
-            for mark in marks:                                          # for (Integer mark : marks)
-                _sum += mark                                            # sum += mark;
-            return float(_sum)/len(marks)                                       # return sum.doubleValue() / marks.size();
-        return _sum                                                      # return sum;
+    # def calculateAverage2(self, marks):                                  # private static double calculateAverage2(ArrayList<Integer> marks)
+    #     _sum = 0.0                                                       # Double sum = 0.0;
+    #     if marks != []:                                                  # if(!marks.isEmpty())
+    #         for mark in marks:                                           # for (Integer mark : marks)
+    #             _sum += mark                                             # sum += mark;
+    #         return float(_sum)/len(marks)                                # return sum.doubleValue() / marks.size();
+    #     return _sum                                                      # return sum;
 
 # I don't think there will be a need for two calculateAverage functions
+
+
     def runCLISim(self, args):                                 # public static void runCLISim(String[] args)
 
         # this is an implementation of the remove metho found in the list
