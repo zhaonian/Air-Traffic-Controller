@@ -2,12 +2,11 @@
 This file contains all the core constant variables. Organize all of them into ParameterCore class.
 """
 
-## import au.com.bytecode.opencsv.CSV;
 from FlightPlanBootstrapSplitEnum import FlightPlanBootstrapSplitEnum
 from FlightPlanBootstrapOrderEnum import FlightPlanBootstrapOrderEnum
 from UtilityFunctionEnum import UtilityFunctionEnum
 import csv
-import timeit
+import multiprocessing
 
 class ParameterCore:                                                                           # public final class ParameterCore {
     BOOTSTRAP_METHOD           = FlightPlanBootstrapSplitEnum.ORDERED_SPLIT                    # public static final FlightPlanBootstrapSplitEnum BOOTSTRAP_METHOD = FlightPlanBootstrapSplitEnum.ORDERED_SPLIT;
@@ -23,13 +22,12 @@ class ParameterCore:                                                            
     LOCAL_SEARCH_WINDOW        = 65536                                                         # public static final Integer LOCAL_SEARCH_WINDOW 	   		 	  = 65536;
     BRUTE_BOUND                = 1                                                             # public static final Integer BRUTE_BOUND 	   		   		 	  = 1;
     MIN_FLIGHTS_TO_TRY_IMPROVE = 1                                                             # public static final Integer MIN_FLIGHTS_TO_TRY_IMPROVE 		 	  = 1;
-    #CORES                      = Runtime.getRuntime().availableProcessors();                  # public static final Integer CORES							 	  = Runtime.getRuntime().availableProcessors();
+    CORES                      = multiprocessing.cpu_count()                                   # public static final Integer CORES							 	  = Runtime.getRuntime().availableProcessors();
     SIG_FIGS                   = 8                                                             # public static final Integer SIG_FIGS                   		 	  = 8;
     DEBUG                      = 0                                                             # public static final Integer DEBUG                      		 	  = 0;
     RUN_PARALLEL               = True                                                          # public static final Boolean RUN_PARALLEL			  			  = true;
     SKIP_NODAT                 = True                                                          # public static final Boolean SKIP_NODAT				   		  	  = true;
-    csv                        = CSV.separator(',').noQuote().create()                        # public static final CSV csv                            		 	  = CSV.separator(',').noQuote().create();
-    #csv = csv.writer("research.csv" , delimiter=' ', quoting = csv.QUOTE_NONE)
+    csv = csv.writer("result.csv", delimiter=',', quoting=csv.QUOTE_NONE)                      # public static final CSV csv                            		 	  = CSV.separator(',').noQuote().create();
     SKIP_FIRST_ROW             = True                                                          # public static final Boolean SKIP_FIRST_ROW			   		  	  = true;
     DO_SLS                     = "s"                                                           # public static final String DO_SLS                      		 	  = "s";
     DO_BFS                     = "b"                                                           # public static final String DO_BFS                      		 	  = "b";
