@@ -13,7 +13,7 @@ class Placement:
 
     def setFp(self, fp):
         if fp == None:
-            raise AssertionError
+            raise AssertionError("FlightPlan can't be None!")
         self.fp = FlightPlan(fp)
 
     def getPid(self):
@@ -22,4 +22,8 @@ class Placement:
     def getFp(self):
         return self.fp
 
-    # def addFlight(self, f):
+    def addFlight(self, f):
+        return self.fp.addFlight(f)
+
+    def size(self):
+        return self.fp.size()
