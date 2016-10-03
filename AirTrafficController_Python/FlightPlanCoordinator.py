@@ -19,7 +19,7 @@ def randSplit(wSize, candidates):                                     # public s
         candidates: list. the list of Flight that needed to be randomly splitted.
 
     Return:
-        fp: FlightPlan
+        [fp: FlightPlan, candidates: list]
     """
     numpy.random.shuffle(candidates)                                        # Collections.shuffle(candidates);
     flist = list()                                                          # List<Flight> flist = new ArrayList<Flight>();
@@ -28,6 +28,26 @@ def randSplit(wSize, candidates):                                     # public s
     candidates = [x for x in candidates if x not in flist]                  # candidates.removeAll(flist);
     fp = FlightPlan.FlightPlan(flist)                                                  # FlightPlan fp = new FlightPlan(flist);
     return fp                                                               # return fp;
+
+def ordSplit(wSize, candidates):                                            # public static FlightPlan ordSplit(Integer wSize, List<Flight> candidates) {
+    """
+    Choose from those have highest rewards.
+
+    Args:
+        wSize: int. number of candidate needed to be chosen
+        candidates: list. the list of Flight that needed to be randomly splitted.
+    Return:
+        [fp: FlightPlan, candidates: list]
+    """
+    insertionSort(candidates)                                               # Collections.sort(candidates);
+    candidates.reverse()                                                    # Collections.reverse(candidates);
+    flist = list()                                                          # List<Flight> flist = new ArrayList<Flight>();
+    for i in range(0, wSize):                                               # for (int i = 0; i < wSize; i++) {
+        flist.append(candidates[i])                                         # flist.add(candidates.get(i));
+    candidates = [x for x in candidates if x not in flist]                  # candidates.removeAll(flist);
+    fp = FlightPlan.FlightPlan(flist)                                       # FlightPlan fp = new FlightPlan(flist);
+    return [fp, candidates]                                                 # return fp;
+
 
 class FlightPlanCoordinator:                                                               # public class FlightPlanCoordinator {
     def __init__(self, fp, candidates):
@@ -198,16 +218,6 @@ class FlightPlanCoordinator:                                                    
                     print(bestPlan.toString())                                                                                         # System.out.println(bestPlan);
                     changed = False
             return bestPlan                                                                                             # return bestPlan;
-
-def ordSplit(wSize, candidates):                                            # public static FlightPlan ordSplit(Integer wSize, List<Flight> candidates) {
-    insertionSort(candidates)                                              # Collections.sort(candidates);
-    candidates.reverse()                                                    # Collections.reverse(candidates);
-    flist = list()                                                          # List<Flight> flist = new ArrayList<Flight>();
-    for i in range(0, wSize):                                               # for (int i = 0; i < wSize; i++) {
-        flist.append(candidates[i])                                         # flist.add(candidates.get(i));
-    candidates = [x for x in candidates if x not in flist]                  # candidates.removeAll(flist);
-    fp = FlightPlan.FlightPlan(flist)                                                  # FlightPlan fp = new FlightPlan(flist);
-    return fp                                                               # return fp;
 
 
 def insertionSort(alist):

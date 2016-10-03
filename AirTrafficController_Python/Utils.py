@@ -120,16 +120,20 @@ class Utils:                              # public class Utils {
 		# Note: candidates IS modified after the operation.
 
         if ParameterCore.ParameterCore().BOOTSTRAP_METHOD == FlightPlanBootstrapSplitEnum.FlightPlanBootstrapSplitEnum().ORDERED_SPLIT:
-            fp = FlightPlanCoordinator.ordSplit(fallSize, candidates)
+            result = FlightPlanCoordinator.ordSplit(fallSize, candidates)
+            fp = result[0]
+            candidates = result[1]
             fp.makeAdmissible()
         elif ParameterCore.ParameterCore().BOOTSTRAP_METHOD == FlightPlanBootstrapSplitEnum.FlightPlanBootstrapSplitEnum().RANDOM_SPLIT:
-            fp = FlightPlanCoordinator.randSplit(fallSize, candidates)
+            result = FlightPlanCoordinator.randSplit(fallSize, candidates)
+            fp = result[0]
+            candidates = result[1]
         else:
             raise AssertionError()
 
         # Optimize START.
         fpc = FlightPlanCoordinator.FlightPlanCoordinator(fp, candidates)
-        if control == ParameterCore.ParameterCore().DO_BFS:
+        if "s" == ParameterCore.ParameterCore().DO_BFS:
             fp = fpc.runBruteForce()
         else:
             fp = fpc.runSLS()
