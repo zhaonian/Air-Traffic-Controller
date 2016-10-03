@@ -7,25 +7,25 @@ import java.io.UnsupportedEncodingException;
 public final class Main {
 	public static void main(String[] args) {
 		/*  */
-//		try{
-//			//CLI.runCLI(args);
-//		    Testing.runTestXe();
-//		    CLI.runCLISim(args);
-//		}
-//		catch (FileNotFoundException e2) {
-//			e2.printStackTrace();
-//		} 
-//		catch (UnsupportedEncodingException e2) {
-//			e2.printStackTrace();
-//		}
-//		catch (IOException e) {
-//			e.printStackTrace();
-//		} 
-//		catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
+		try{
+			CLI.runCLI(args);
+		    //Testing.runTestXe();
+		    //CLI.runCLISim(args);
+		}
+		catch (FileNotFoundException e2) {
+			e2.printStackTrace();
+		} 
+		catch (UnsupportedEncodingException e2) {
+			e2.printStackTrace();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		} 
+		catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		
-                Testing.runTestZero();
+        //        Testing.runTestZero();
 		//Testing.runTestOne();
 		//Testing.runTestTwo();
 		//Testing.runTestThree();

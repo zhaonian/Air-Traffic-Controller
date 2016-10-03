@@ -19,7 +19,7 @@ import java.util.List;
 public class TestFlightPlan {
     public static void main(String args[])
     {
-        List<Flight> l = new ArrayList<>();
+        List<Flight> l = new ArrayList<Flight>();
         l.add(new Flight("general"                  , "pass"     , 99.065588 , 0.521137 , 4.000000 , 0.671081 , 0.284618 , 0.665309 , 0.041733));
         l.add(new Flight("general"                  , "pass"     , 99.065588 , 0.521137 , 4.000000 , 0.671081 , 0.284618 , 0.665309 , 0.041733));
         l.add(new Flight("general"                  , "pass"     , 99.065588 , 0.521137 , 4.000000 , 0.671081 , 0.284618 , 0.665309 , 0.041733));

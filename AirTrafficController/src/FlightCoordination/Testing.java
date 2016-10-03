@@ -242,7 +242,7 @@ public class Testing {
 //		candidates.add(new Flight("bario", "pass",RandFloat(1, 100), RandFloat(0, 1), 4.0, RandFloat(0, 1),RandFloat(0, 1), RandFloat(0, 1),RandFloat(0, 1)));
 //		candidates.add(new Flight("snarf", "pass",RandFloat(1, 100), RandFloat(0, 1), 4.0, RandFloat(0, 1),RandFloat(0, 1), RandFloat(0, 1),RandFloat(0, 1)));
 //		candidates.add(new Flight("snarfsnarf", "pass",RandFloat(1, 100), RandFloat(0, 1), 4.0, RandFloat(0, 1),RandFloat(0, 1), RandFloat(0, 1),RandFloat(0, 1)));
-                ArrayList<Flight> candidates2 = new ArrayList<>(candidates);
+                ArrayList<Flight> candidates2 = new ArrayList<Flight>(candidates);
                 FlightPlan fp2 = fp.cloneFlightPlan();
                 
 		FlightPlanCoordinator fpc = new FlightPlanCoordinator(fp, candidates);
@@ -298,7 +298,7 @@ public class Testing {
 		candidates.add(new Flight("general", "pass3", 99.065588, 0.521137, 4.0, 0.671081, 0.284618, 0.665309, 0.041733));
 		candidates.add(new Flight("steve", "pass4", 77.528814, 0.236376, 4.0, 0.458126, 0.621779, 0.808786, 0.652340));
 		candidates.add(new Flight("quin", "pass5", 67.934971, 0.117932, 4.0, 0.959371, 0.878957, 0.888045, 0.411988));
-                ArrayList<Flight> candidates2 = new ArrayList<>(candidates);
+                ArrayList<Flight> candidates2 = new ArrayList<Flight>(candidates);
 
 		FlightPlanCoordinator fpc = new FlightPlanCoordinator(fp, candidates);
 		System.out.println("INITIAL");

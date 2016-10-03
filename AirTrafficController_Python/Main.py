@@ -32,7 +32,7 @@ def Main():
 
 
     # try:
-    CLI.CLI().runCLI(args)                                    # CLI.runCLISim(args);
+    # CLI.CLI().runCLI(args)                                    # CLI.runCLISim(args);
 
     # except Exception as e2:                                          # catch (FileNotFoundException e2)
     #     print(e2)                                                    # e2.printStackTrace();
@@ -61,7 +61,7 @@ def Main():
 #Testing.runTestEleven()
 #Testing.runTestTwelve()
 
-#Testing.Testing().runTestZero() ### home made test!
+Testing.Testing().runTestZero() ### home made test!
 
 Main()
 

@@ -276,23 +276,27 @@ class Testing:                                                                  
 
     def runTestZero(self):
         flights = []
-        flights.append(Flight.Flight("eeny", "eeny", 7.431093 , 0.900335, 4.000000 , 0.637925 , 0.148920, 0.382864 , 0.092765))
-        flights.append(Flight.Flight("meany", "meany", 24.891589 , 0.910925, 4.000000 , 0.593279 , 0.511503, 0.284545 , 0.339193))
-        flights.append(Flight.Flight("miny", "miny", 32.163439 , 0.727152 , 4.000000 , 0.271691 , 0.895381, 0.312952 , 0.962457))
-        flights.append(Flight.Flight("moe", "moe", 79.763438 , 0.179283 , 4.000000 , 0.213952 , 0.982373, 0.253538 , 0.635217))
-        flights.append(Flight.Flight("alan", "alan", 71.329610 , 0.930679 , 4.000000 , 0.117261 , 0.181536, 0.901166 , 0.062637))
+        # flights.append(Flight.Flight("eeny", "eeny", 7.431093 , 0.900335, 4.000000 , 0.637925 , 0.148920, 0.382864 , 0.092765))
+        # flights.append(Flight.Flight("meany", "meany", 24.891589 , 0.910925, 4.000000 , 0.593279 , 0.511503, 0.284545 , 0.339193))
+        # flights.append(Flight.Flight("miny", "miny", 32.163439 , 0.727152 , 4.000000 , 0.271691 , 0.895381, 0.312952 , 0.962457))
+        # flights.append(Flight.Flight("moe", "moe", 79.763438 , 0.179283 , 4.000000 , 0.213952 , 0.982373, 0.253538 , 0.635217))
+        # flights.append(Flight.Flight("alan", "alan", 71.329610 , 0.930679 , 4.000000 , 0.117261 , 0.181536, 0.901166 , 0.062637))
 
+        flights.append(Flight.Flight("05fb7303dfb23eed361fc53c", "3028", 1.63, 0.0239, 2, 0.517816513, 0.543604016, 0.215118972, 0.174996489))
+        flights.append(Flight.Flight("05fb7303dfb23eed361fc53c", "3029", 0.95, 0.0354, 2, 0.538285173, 0.543604016, 0.189290072, 0.139983126))
+        flights.append(Flight.Flight("05fb7303dfb23eed361fc53c", "3031", 0.83, 0.0307, 2, 0.414119909, 0.543604016, 0.191063909, 0.056137826))
+        flights.append(Flight.Flight("05fb7303dfb23eed361fc53c", "4326", 0.49, 0.0393, 2, 0.514487219, 0.543604016, 0.193086604, 0))
 
         fp = FlightPlan.FlightPlan(flights)
 
-        candidates = []
-        candidates.append(Flight.Flight("modern", "pass1", 99.866374 , 0.015579 , 4.000000 , 0.098856 , 0.757253, 0.962645 , 0.495050))
-        candidates.append(Flight.Flight("major", "pass2", 17.104479 , 0.298730 , 4.000000 , 0.386326 , 0.577184, 0.261103 , 0.611658))
-        candidates.append(Flight.Flight("general", "pass3", 99.065588 , 0.521137 , 4.000000 , 0.671081 , 0.284618, 0.665309 , 0.041733))
-        candidates.append(Flight.Flight("steve", "pass4", 77.528814 , 0.236376 , 4.000000 , 0.458126 , 0.621779, 0.808786 , 0.652340))
-        candidates.append(Flight.Flight("quin", "pass5", 67.934971 , 0.117932 , 4.000000 , 0.959371 , 0.878957, 0.888045 , 0.411988))
+        # candidates = []
+        # candidates.append(Flight.Flight("modern", "pass1", 99.866374 , 0.015579 , 4.000000 , 0.098856 , 0.757253, 0.962645 , 0.495050))
+        # candidates.append(Flight.Flight("major", "pass2", 17.104479 , 0.298730 , 4.000000 , 0.386326 , 0.577184, 0.261103 , 0.611658))
+        # candidates.append(Flight.Flight("general", "pass3", 99.065588 , 0.521137 , 4.000000 , 0.671081 , 0.284618, 0.665309 , 0.041733))
+        # candidates.append(Flight.Flight("steve", "pass4", 77.528814 , 0.236376 , 4.000000 , 0.458126 , 0.621779, 0.808786 , 0.652340))
+        # candidates.append(Flight.Flight("quin", "pass5", 67.934971 , 0.117932 , 4.000000 , 0.959371 , 0.878957, 0.888045 , 0.411988))
 
-        fpc = FlightPlanCoordinator.FlightPlanCoordinator(fp, candidates)
+        # fpc = FlightPlanCoordinator.FlightPlanCoordinator(fp, candidates)
 
         print("INITIAL")  # System.out.println("INITIAL");
         for f in fp.getAsList():  # for (Flight f : fp) {
@@ -310,26 +314,26 @@ class Testing:                                                                  
                 " Expected value: " + str(fp.getExpectedValue()))  # " Expected value: " + fp.getExpectedValue());
 
         print("IMPROVED")  # System.out.println("IMPROVED");
-        fpi = fpc.runSLS()  # FlightPlan fpi = fpc.runSLS();
+        # fpi = fpc.runSLS()  # FlightPlan fpi = fpc.runSLS();
 
-        for f in fpi.getAsList():  # for (Flight f : fpi) {
-            print(f.toString())  # System.out.println(f);
+        # for f in fpi.getAsList():  # for (Flight f : fpi) {
+        #     print(f.toString())  # System.out.println(f);
+        #
+        # print(
+        #     "Is admissible? " + str(fpi.isAdmissible()) +  # System.out.println("Is admissible? " + fpi.isAdmissible() +
+        #     " Expected value: " + str(fpi.getExpectedValue()))  # " Expected value: " + fpi.getExpectedValue());
+        #
+        # print("BRUTE FORCE")  # System.out.println("BRUTE FORCE");
+        # fpb = fpc.runBruteForce()  # FlightPlan fpb = fpc.runBruteForce();
 
-        print(
-            "Is admissible? " + str(fpi.isAdmissible()) +  # System.out.println("Is admissible? " + fpi.isAdmissible() +
-            " Expected value: " + str(fpi.getExpectedValue()))  # " Expected value: " + fpi.getExpectedValue());
-
-        print("BRUTE FORCE")  # System.out.println("BRUTE FORCE");
-        fpb = fpc.runBruteForce()  # FlightPlan fpb = fpc.runBruteForce();
-
-        for f in fpb.getAsList():  # for (Flight f : fpb) {
-            print(f.toString())  # System.out.println(f);
-
-        print(
-            "Is admissible? " + str(fpb.isAdmissible()) +  # System.out.println("Is admissible? " + fpb.isAdmissible() +
-            " Expected value: " + str(fpb.getExpectedValue()))  # " Expected value: " + fpb.getExpectedValue());
-
-
+        # for f in fpb.getAsList():  # for (Flight f : fpb) {
+        #     print(f.toString())  # System.out.println(f);
+        #
+        # print(
+        #     "Is admissible? " + str(fpb.isAdmissible()) +  # System.out.println("Is admissible? " + fpb.isAdmissible() +
+        #     " Expected value: " + str(fpb.getExpectedValue()))  # " Expected value: " + fpb.getExpectedValue());
+        #
+        #
 
 
 
