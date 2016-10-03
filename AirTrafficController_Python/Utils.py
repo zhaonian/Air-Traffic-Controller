@@ -123,7 +123,7 @@ class Utils:                              # public class Utils {
             fp = FlightPlanCoordinator.ordSplit(fallSize, candidates)
             fp.makeAdmissible()
         elif ParameterCore.ParameterCore().BOOTSTRAP_METHOD == FlightPlanBootstrapSplitEnum.FlightPlanBootstrapSplitEnum().RANDOM_SPLIT:
-            fp = FlightPlanCoordinator.FlightPlanCoordinator(fallSize, candidates).randSplit(fallSize, candidates)
+            fp = FlightPlanCoordinator.randSplit(fallSize, candidates)
         else:
             raise AssertionError()
 

@@ -9,7 +9,7 @@ import csv
 import multiprocessing
 
 class ParameterCore:                                                                           # public final class ParameterCore {
-    BOOTSTRAP_METHOD           = FlightPlanBootstrapSplitEnum.ORDERED_SPLIT                    # public static final FlightPlanBootstrapSplitEnum BOOTSTRAP_METHOD = FlightPlanBootstrapSplitEnum.ORDERED_SPLIT;
+    BOOTSTRAP_METHOD           = FlightPlanBootstrapSplitEnum.RANDOM_SPLIT                    # public static final FlightPlanBootstrapSplitEnum BOOTSTRAP_METHOD = FlightPlanBootstrapSplitEnum.ORDERED_SPLIT;
     BOOTSTRAP_ORDER            = FlightPlanBootstrapOrderEnum.BY_EXPECT                        # public static final FlightPlanBootstrapOrderEnum BOOTSTRAP_ORDER  = FlightPlanBootstrapOrderEnum.BY_EXPECT;
     UTILITY                    = UtilityFunctionEnum.CDF                                       # public static final UtilityFunctionEnum UTILITY        			  = UtilityFunctionEnum.CDF;
     CLOSE_TO_ZERO              = 0.00001                                                       # public static final Double  CLOSE_TO_ZERO     		   			  = Double.MIN_VALUE; //0.00001;

@@ -10,6 +10,25 @@ import Flight
 import FlightCombinator
 
 
+def randSplit(wSize, candidates):                                     # public static FlightPlan randSplit(Integer wSize, List<Flight> candidates) {
+    """
+    Randomly choose some of the candidates
+
+    Args:
+        wSize: int. number of candidate needed to be chosen
+        candidates: list. the list of Flight that needed to be randomly splitted.
+
+    Return:
+        fp: FlightPlan
+    """
+    numpy.random.shuffle(candidates)                                        # Collections.shuffle(candidates);
+    flist = list()                                                          # List<Flight> flist = new ArrayList<Flight>();
+    for i in range(0, wSize):                                               # for (int i = 0; i < wSize; i++) {
+        flist.append(candidates[i])                                         # flist.add(candidates.get(i));
+    candidates = [x for x in candidates if x not in flist]                  # candidates.removeAll(flist);
+    fp = FlightPlan.FlightPlan(flist)                                                  # FlightPlan fp = new FlightPlan(flist);
+    return fp                                                               # return fp;
+
 class FlightPlanCoordinator:                                                               # public class FlightPlanCoordinator {
     def __init__(self, fp, candidates):
 
@@ -38,24 +57,7 @@ class FlightPlanCoordinator:                                                    
         return candid                                                           # return candid;
 
 
-    def randSplit(self, wSize, candidates):                                     # public static FlightPlan randSplit(Integer wSize, List<Flight> candidates) {
-        """
-        Randomly choose some of the candidates
 
-        Args:
-            wSize: int. number of candidate needed to be chosen
-            candidates: list. the list of Flight that needed to be randomly splitted.
-
-        Return:
-            fp: FlightPlan
-        """
-        numpy.random.shuffle(candidates)                                        # Collections.shuffle(candidates);
-        flist = list()                                                          # List<Flight> flist = new ArrayList<Flight>();
-        for i in range(0, wSize):                                               # for (int i = 0; i < wSize; i++) {
-            flist.append(candidates[i])                                         # flist.add(candidates.get(i));
-        candidates = [x for x in candidates if x not in flist]                  # candidates.removeAll(flist);
-        fp = FlightPlan(flist)                                                  # FlightPlan fp = new FlightPlan(flist);
-        return fp                                                               # return fp;
 
 
     ''' ordSplit should be defined outside the class because this is a static function, nothing to do with self '''
