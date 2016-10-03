@@ -45,7 +45,12 @@ def lognormcdf_erfc(x, sigma, miu):
     return 1 - 0.5*erfc((log(x) - miu)/(2**0.5*sigma))
 
 def lognormcdf(x, sigma, miu):
-    return lognormcdf_erfc(x, sigma, miu)
+    if sigma == 0 and x == miu:
+        return 1
+    elif sigma == 0:
+        return 0
+    else:
+        return lognormcdf_erfc(x, sigma, miu)
 
 #def test_cdf_table():
 #    a = scipy.stats.lognorm.cdf(4, 1, 2)

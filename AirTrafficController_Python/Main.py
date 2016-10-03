@@ -17,7 +17,7 @@ import Testing
 import CLI
 import sys
 
-args = ['s', 9999, '../AirTrafficController/dat/in/sample.csv', '/Users/Luan/Desktop/imfake.txt']
+args = ['s', 9999, '../AirTrafficController/dat/in/test-70.csv', '/Users/Luan/Desktop/imfake.txt']
 # if __name__ == '__main__':
 def Main():
     """

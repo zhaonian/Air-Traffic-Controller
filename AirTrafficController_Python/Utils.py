@@ -197,7 +197,7 @@ class Utils:                              # public class Utils {
                 return
         row         = values
         pTok        = row[0]
-        fId         = int(row[1])
+        fId         = str(row[1])
         reward      = float(row[2])
         fillRate    = float(row[3])
         t_maxx      = float(row[4])
