@@ -8,9 +8,9 @@ import decimal
 import time
 import numpy
 import os
-from pathlib import Path
 import OptimizingThread
 import threading
+from Flight import Flight
 
 
 class Utils:                              # public class Utils {
@@ -43,7 +43,7 @@ class Utils:                              # public class Utils {
                     f.setTimeAverageFailure(f.getTimeAverageSuccess)
                 else:
                     f.setTimeAverageFailure(self.timeAverageFailMedian)
-            if f.getTimeAverageSuccess <= ParameterCore.ParameterCore().CLOSE_TO_ZERO:
+            if f.getTimeAverageSuccess() <= ParameterCore.ParameterCore().CLOSE_TO_ZERO:
                 if f.getTimeAverageFailure() > ParameterCore.ParameterCore().CLOSE_TO_ZERO:
                     f.setTimeAverageSuccess(f.getTimeAverageFailure)
                 else:
@@ -67,13 +67,13 @@ class Utils:                              # public class Utils {
         pHash = dict()
         for f in allFlights:
             if f.getPlacementToken() in pHash.keys():
-                p = pHash[f.getPlacementToken]
+                p = pHash[f.getPlacementToken()]
                 p.addFlight(f)
             else:
                 nfp = FlightPlan([])
-                pHash.update({f.getPlacementToken: Placement.Placement(f.getPlacementToken(), nfp)})
+                pHash.update({f.getPlacementToken(): Placement.Placement(f.getPlacementToken(), nfp)})
                 nfp.addFlight(f)
-        return list()
+        return list(pHash.values())
 
 
 
@@ -91,7 +91,7 @@ class Utils:                              # public class Utils {
             if ParameterCore.ParameterCore().RUN_PARALLEL:
                 for p in allPlacements:
                     alot.append(OptimizingThread.OptimizingThread(waterfallSizeLimit, control, semaphore, p))
-                    alot[(len(alot) - 1)].start()
+                    alot[(len(alot) - 1)].run()
 
                 for t in alot:
                     t.join()
@@ -103,7 +103,7 @@ class Utils:                              # public class Utils {
             else:
                 for p in allPlacements:
                     self.optimizePlacement(waterfallSizeLimit, control, p)
-                    s = "{} : {} : {} : {} : {} : {}\n".format(int(round(time.time() * 1000)), done, allPlacements.size(), p.getPid(), p.getFp().size(),p.getFp().getExpectedValue())
+                    s = "{} : {} : {} : {} : {} : {}\n".format(int(round(time.time() * 1000)), done, len(allPlacements), p.getPid(), p.getFp().size(),p.getFp().getExpectedValue())
                     logger.write(s)
                     logger.flush()
                     done += 1
@@ -123,13 +123,13 @@ class Utils:                              # public class Utils {
             fp = FlightPlanCoordinator.ordSplit(fallSize, candidates)
             fp.makeAdmissible()
         elif ParameterCore.ParameterCore().BOOTSTRAP_METHOD == FlightPlanBootstrapSplitEnum.FlightPlanBootstrapSplitEnum().RANDOM_SPLIT:
-            fp = FlightPlanCoordinator.FlightPlanCoordinator(fallSize, candidates).randSplit()
+            fp = FlightPlanCoordinator.FlightPlanCoordinator(fallSize, candidates).randSplit(fallSize, candidates)
         else:
             raise AssertionError()
 
         # Optimize START.
         fpc = FlightPlanCoordinator.FlightPlanCoordinator(fp, candidates)
-        if control.equals(ParameterCore.ParameterCore().DO_BFS):
+        if control == ParameterCore.ParameterCore().DO_BFS:
             fp = fpc.runBruteForce()
         else:
             fp = fpc.runSLS()
@@ -146,40 +146,71 @@ class Utils:                              # public class Utils {
 
     # placementToken, flight_id, cpm, fillRateProbability, latency for failure in seconds, latency of success in seconds.
     def readFlightsCSV(self, csv, inFiNa):
-        flights = []
+        self.flights = []
         self.rewardMedian = None
         self.fillMedian = None
         self.timeAverageFailMedian = None
         self.timeAverageSuccMedian = None
         self.timeMaxMedian = None
 
-        rewList = []
-        fillList = []
-        tMaxList = []
-        atFailList = []
-        atSuccList = []
-        stdtFailList = []
-        stdtSuccList = []
+        self.rewList = []
+        self.fillList = []
+        self.tMaxList = []
+        self.atFailList = []
+        self.atSuccList = []
+        self.stdtFailList = []
+        self.stdtSuccList = []
 
-        rewList.append(0.0)
-        fillList.append(0.0)
-        tMaxList.append(0.0)
-        atFailList.append(0.0)
-        atSuccList.append(0.0)
-        stdtFailList.append(0.0)
-        stdtSuccList.append(0.0)
+        self.rewList.append(0.0)
+        self.fillList.append(0.0)
+        self.tMaxList.append(0.0)
+        self.atFailList.append(0.0)
+        self.atSuccList.append(0.0)
+        self.stdtFailList.append(0.0)
+        self.stdtSuccList.append(0.0)
 
-        # still have to implement a bunch of code that I don't know how it works
+        i = 0
+        with open(inFiNa) as csvfile:
+            for x in csvfile.readlines():
+                if i != 0:
+                    self.procRow(x.split(','))
+                i += 1
 
-        self.rewardMedian = numpy.median(rewList)
-        self.fillMedian = numpy.median(fillList)
-        self.timeMaxMedian = numpy.median(tMaxList)
-        self.timeAverageFailMedian = numpy.median(atFailList)
-        self.timeAverageSuccMedian = numpy.median(atSuccList)
-        self.timeStdDevFailMedian = numpy.median(stdtFailList)
-        self.timeStdDevSuccMedian = numpy.median(stdtSuccList)
 
-        return flights
+        self.rewardMedian = numpy.median(self.rewList)
+        self.fillMedian = numpy.median(self.fillList)
+        self.timeMaxMedian = numpy.median(self.tMaxList)
+        self.timeAverageFailMedian = numpy.median(self.atFailList)
+        self.timeAverageSuccMedian = numpy.median(self.atSuccList)
+        self.timeStdDevFailMedian = numpy.median(self.stdtFailList)
+        self.timeStdDevSuccMedian = numpy.median(self.stdtSuccList)
+
+        return self.flights
+
+    def procRow(self, values):
+        for x in values:
+            if len(x) == 0:
+                return
+        row         = values
+        pTok        = row[0]
+        fId         = int(row[1])
+        reward      = float(row[2])
+        fillRate    = float(row[3])
+        t_maxx      = float(row[4])
+        t_fail      = float(row[5])
+        t_succ      = float(row[6])
+        t_fail_std  = float(row[7])
+        t_succ_std  = float(row[8].strip("\r\n"))
+
+        self.rewList.append(float(reward)) if reward > 0.0 else None
+        self.fillList.append(float(fillRate)) if fillRate > 0.0 else None
+        self.tMaxList.append(float(t_maxx)) if t_maxx > 0.0 else None
+        self.atFailList.append(float(t_fail)) if t_fail > 0.0 else None
+        self.atSuccList.append(float(t_succ)) if t_succ > 0.0 else None
+        self.stdtFailList.append(float(t_fail_std)) if t_fail_std > 0.0 else None
+        self.stdtSuccList.append(float(t_succ_std)) if t_succ_std > 0.0 else None
+
+        self.flights.append(Flight(pTok, fId, reward, fillRate, t_maxx, t_fail, t_succ, t_fail_std, t_succ_std))
 
 
     def mergeLists(self, l1, l2):
@@ -224,9 +255,8 @@ class Utils:                              # public class Utils {
 
 
     def clearFile(self, fName):
-        fileTemp = open(Path(fName), "w+")
-        if os.path.isfile(fName):
-            os.remove(fileTemp)
+        with open(fName, "w+"):
+            pass
 
 
     def roundDouble(self, value, sigFigs):

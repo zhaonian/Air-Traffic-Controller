@@ -1,4 +1,3 @@
-# need this module?
 
 from FlightPlan import FlightPlan
 
@@ -27,3 +26,6 @@ class Placement:
 
     def size(self):
         return self.fp.size()
+
+    def get(self, index):
+        return self.fp.get(index)

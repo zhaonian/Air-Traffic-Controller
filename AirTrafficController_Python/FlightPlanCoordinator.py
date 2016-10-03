@@ -147,6 +147,7 @@ class FlightPlanCoordinator:                                                    
                     if ParameterCore.ParameterCore().DEBUG < 0:                                                                         # if (ParameterCore.DEBUG < 0) {
                         print(improvement , " " , (1.0 - (improvement / incumbentScore)) , " " , self.temperature)      # System.out.println(improvement + " " + (1.0 - (improvement / incumbentScore)) + " " + temperature);
         print("NO BFS Improvement!")                                                                                    # System.out.println("NO BFS Improvement!");
+
         return incumbent                                                                                                # return incumbent;
 
 

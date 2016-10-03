@@ -79,7 +79,7 @@ class FlightPlan(object):
         costFailChain       = costFlipFail                       # Double costFailChain      = costFlipFail;
         normalCDFFailChain  = (math.pow(costFlipFail_std, 2))    # Double normalCDFFailChain = (Math.pow(costFlipFail_std, 2));
 
-        self.probs = self.plan[0].getFid() + " S ", logNormalCDF, ","     # this.probs = this.plan.get(0).getFid() + " S " + logNormalCDF + "," ;
+        self.probs = str(self.plan[0].getFid()) + " S " + str(logNormalCDF) + ","     # this.probs = this.plan.get(0).getFid() + " S " + logNormalCDF + "," ;
 
         for i in range(1, len(self.plan)):                                  # for ( int i = 1; i < this.plan.size(); i++ ){
             reward              = self.plan[i].getReward()                  # reward	   	        = this.plan.get(i).getReward();
@@ -96,7 +96,7 @@ class FlightPlan(object):
             #logNormalCDF = scipy.stats.lognorm.cdf(tMax, math.sqrt(logNormVar), logNormMean)                                              # logNormalCDF            = jdistlib.LogNormal.cumulative(tMax, logNormMean, Math.sqrt(logNormVar), true, false);
             logNormalCDF = lognormcdf(tMax, math.sqrt(logNormVar), logNormMean)
 
-            self.probs          += self.plan[i].getFid() + " S ", logNormalCDF, ","                                   # this.probs           += this.plan.get(i).getFid() + " S " + logNormalCDF + "," ;
+            self.probs          += str(self.plan[i].getFid()) + " S " + str(logNormalCDF) + ","                                   # this.probs           += this.plan.get(i).getFid() + " S " + logNormalCDF + "," ;
 
             fullSum             += (reward*probSucc*probFailChain*logNormalCDF)                                         # fullSum 		     += (reward*probSucc*probFailChain*logNormalCDF);
             probFailChain       *= ( 1.0 - probSucc )                                                                   # probFailChain        *= ( 1.0 - probSucc );

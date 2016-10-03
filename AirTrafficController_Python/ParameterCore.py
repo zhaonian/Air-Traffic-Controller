@@ -25,9 +25,9 @@ class ParameterCore:                                                            
     CORES                      = multiprocessing.cpu_count()                                   # public static final Integer CORES							 	  = Runtime.getRuntime().availableProcessors();
     SIG_FIGS                   = 8                                                             # public static final Integer SIG_FIGS                   		 	  = 8;
     DEBUG                      = 0                                                             # public static final Integer DEBUG                      		 	  = 0;
-    RUN_PARALLEL               = True                                                          # public static final Boolean RUN_PARALLEL			  			  = true;
+    RUN_PARALLEL               = False                                                          # public static final Boolean RUN_PARALLEL			  			  = true;
     SKIP_NODAT                 = True                                                          # public static final Boolean SKIP_NODAT				   		  	  = true;
-    csv = csv.writer("result.csv", delimiter=',', quoting=csv.QUOTE_NONE)                      # public static final CSV csv                            		 	  = CSV.separator(',').noQuote().create();
+    csv = csv.reader("result.csv", delimiter=',', quoting=csv.QUOTE_NONE)                      # public static final CSV csv                            		 	  = CSV.separator(',').noQuote().create();
     SKIP_FIRST_ROW             = True                                                          # public static final Boolean SKIP_FIRST_ROW			   		  	  = true;
     DO_SLS                     = "s"                                                           # public static final String DO_SLS                      		 	  = "s";
     DO_BFS                     = "b"                                                           # public static final String DO_BFS                      		 	  = "b";
