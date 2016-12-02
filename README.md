@@ -1,3 +1,3 @@
-# Extremely-Fast-Algorithm
-An extremely fast algorithm for ads!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Air Traffic Controller
+An extremely fast algorithm for large-scale online advertising optimization.
 
